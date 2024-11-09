@@ -27,21 +27,39 @@ public class AuthenticationService implements AuthenticationInterface {
     @Override
     public LoginResponse authenticate(UserRequest userRequest) throws NotFoundException {
         User user = userRepository.findByEmail(userRequest.getEmail())
+                .or(() -> userRepository.findByName(userRequest.getName()))
                 .orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        userRequest.getEmail(),
+                        // Handle email or name authentication.
+                        userRequest.getEmail() != null ? userRequest.getEmail() : userRequest.getName(),
                         userRequest.getPassword()
                 )
         );
 
         String jwtToken = jwtService.generateToken(user);
+        String jwtRefreshToken = jwtService.generateRefreshToken(user);
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setToken(jwtToken);
-        loginResponse.setExpiresIn(jwtService.getExpirationTime());
+        loginResponse.setRefreshToken(jwtRefreshToken);
 
         return loginResponse;
+    }
+
+    public LoginResponse refresh(String refreshToken) throws NotFoundException {
+        String username = jwtService.extractUsername(refreshToken);
+        User user = userRepository.findByEmail(username)
+                .or(() -> userRepository.findByName(username))
+                .orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
+
+        if (jwtService.isTokenValid(refreshToken, user)) {
+            String newAccessToken = jwtService.generateToken(user);
+            String newRefreshToken = jwtService.generateToken(user);
+            return new LoginResponse(newAccessToken, newRefreshToken);
+        } else {
+            throw new RuntimeException("Invalid refresh token");
+        }
     }
 }

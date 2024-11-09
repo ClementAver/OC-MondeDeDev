@@ -41,6 +41,11 @@ public class AuthenticationController {
         return authenticationService.authenticate(userRequest);
     }
 
+    @PostMapping("auth/refresh")
+    public LoginResponse refresh(@RequestBody String refreshToken) throws NotFoundException {
+        return authenticationService.refresh(refreshToken);
+    }
+
     @GetMapping("auth/me")
     public UserResponse authenticatedUser() throws NoUserInContextException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
