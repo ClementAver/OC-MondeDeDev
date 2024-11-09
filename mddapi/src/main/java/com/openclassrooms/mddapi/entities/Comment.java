@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,7 +21,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
 
     @Size(max = 250, message = "Le commentaire ne doit pas dépasser 250 caractères.")
     @Column(name = "content", nullable = false)
@@ -38,6 +37,7 @@ public class Comment {
 
     // relations
     @ManyToOne(fetch = FetchType.EAGER)
+
     @JoinColumn(name = "user_id")
     private User user;
 

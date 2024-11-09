@@ -14,7 +14,7 @@ public class CommentRequest {
     @Size(max = 250, message = "Le contenu ne doit pas dépasser 250 caractères.")
     private String content;
 
-    private Integer post;
+    private int post;
 
-    private Integer user;
+    private int user;
 }

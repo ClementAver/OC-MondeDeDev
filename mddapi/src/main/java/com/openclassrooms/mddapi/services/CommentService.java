@@ -1,16 +1,18 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dtos.CommentRequest;
+import com.openclassrooms.mddapi.dtos.CommentResponse;
 import com.openclassrooms.mddapi.entities.Comment;
 import com.openclassrooms.mddapi.entities.Post;
 import com.openclassrooms.mddapi.entities.User;
 import com.openclassrooms.mddapi.exceptions.NotFoundException;
+import com.openclassrooms.mddapi.mappers.CommentResponseMapper;
 import com.openclassrooms.mddapi.repositories.CommentRepository;
 import com.openclassrooms.mddapi.repositories.PostRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class CommentService implements CommentInterface {
@@ -18,25 +20,27 @@ public class CommentService implements CommentInterface {
 private final CommentRepository commentRepository;
 private final PostRepository postRepository;
 private final UserRepository userRepository;
+private final CommentResponseMapper commentResponseMapper;
 
 
-    public CommentService(CommentRepository commentRepository, PostRepository postRepository, UserRepository userRepository) {
+    public CommentService(CommentRepository commentRepository, PostRepository postRepository, UserRepository userRepository, com.openclassrooms.mddapi.mappers.CommentResponseMapper commentResponseMapper) {
         this.commentRepository = commentRepository;
 
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.commentResponseMapper = commentResponseMapper;
     }
 
     @Override
-    public List<Comment> getCommentByPostId(Integer id) throws NotFoundException {
+    public Stream<CommentResponse> getCommentByPostId(Integer id) throws NotFoundException {
         postRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Article non référencé."));
 
-        return commentRepository.findByPostId(id);
+        return commentRepository.findByPostId(id).stream().map(commentResponseMapper);
     }
 
     @Override
-    public Comment createComment(CommentRequest commentRequest) throws NotFoundException {
+    public CommentResponse createComment(CommentRequest commentRequest) throws NotFoundException {
         User user = userRepository.findById(commentRequest.getUser())
                 .orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
         Post post = postRepository.findById(commentRequest.getPost())
@@ -47,6 +51,8 @@ private final UserRepository userRepository;
         comment.setPost(post);
         comment.setContent(commentRequest.getContent());
 
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
+
+        return commentResponseMapper.apply(comment);
     }
 }

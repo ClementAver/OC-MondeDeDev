@@ -1,6 +1,8 @@
 package com.openclassrooms.mddapi.dtos;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,12 +14,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
+    @NotBlank(message = "Le nom ne doit pas être vide.")
     @Size(max = 64, message = "Le nom ne doit pas dépasser 64 caractères.")
     String name; // Needed at register
 
+    @NotNull(message = "L'adresse email ne doit pas être nulle.")
     @Email(message = "L'adresse email doit être valide.")
     String email;
 
+    @NotBlank(message = "Le mot de passe ne doit pas être vide.")
     @Size(max = 256, message = "Le mot ne passe ne doit pas dépasser 256 caractères.")
     String password;
 }

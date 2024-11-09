@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.dtos;
 
+import com.openclassrooms.mddapi.entities.Topic;
+import com.openclassrooms.mddapi.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +13,13 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+public class PostResponse {
     int id;
-    String name;
-    String email;
-    LocalDateTime created_at;
-    LocalDateTime updated_at;
+    String title;
+    String content;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+    int topic;
+    int user;
+
 }

@@ -1,11 +1,12 @@
 package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dtos.TopicResponse;
-import com.openclassrooms.mddapi.entities.Topic;
 import com.openclassrooms.mddapi.exceptions.NotFoundException;
 import com.openclassrooms.mddapi.services.TopicService;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,28 +22,20 @@ public class TopicController {
     }
 
     @GetMapping("/topic")
-    public ResponseEntity<List<TopicResponse>> getTopics() {
-        List<TopicResponse> topics = topicService.getTopics();
-        return new ResponseEntity<>(topics, HttpStatus.OK);
+    public  List<TopicResponse> getTopics() {
+        return topicService.getTopics();
     }
 
     @PostMapping("/topic/{topicId}/subscribe/{userId}")
-    public ResponseEntity<String> subscribe(@PathVariable Integer topicId, @PathVariable Integer userId) {
-        try {
-            String response = topicService.subscribe(topicId, userId);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public String subscribe(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).")  int topicId,
+                                            @PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int userId) throws NotFoundException {
+            return topicService.subscribe(topicId, userId);
     }
 
     @PostMapping("/topic/{topicId}/unsubscribe/{userId}")
-    public ResponseEntity<String> unsubscribe(@PathVariable Integer topicId, @PathVariable Integer userId) {
-        try {
-            String response = topicService.unsubscribe(topicId, userId);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public String unsubscribe(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int topicId,
+                                              @PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int userId) throws NotFoundException {
+       return topicService.unsubscribe(topicId, userId);
+
     }
 }

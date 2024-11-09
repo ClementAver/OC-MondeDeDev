@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.dtos.PostResponse;
 import com.openclassrooms.mddapi.dtos.UserRequest;
 import com.openclassrooms.mddapi.dtos.UserResponse;
 import com.openclassrooms.mddapi.entities.Post;
@@ -7,6 +8,8 @@ import com.openclassrooms.mddapi.entities.Topic;
 import com.openclassrooms.mddapi.entities.User;
 import com.openclassrooms.mddapi.exceptions.AlreadyExistException;
 import com.openclassrooms.mddapi.exceptions.NotFoundException;
+import com.openclassrooms.mddapi.mappers.PostResponseMapper;
+import com.openclassrooms.mddapi.mappers.UserResponseMapper;
 import com.openclassrooms.mddapi.repositories.PostRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService implements UserInterface {
@@ -24,22 +27,21 @@ public class UserService implements UserInterface {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final PostRepository postRepository;
+    private final UserResponseMapper userResponseMapper;
+    private final PostResponseMapper postResponseMapper;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PostRepository postRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PostRepository postRepository, UserResponseMapper userResponseMapper, PostResponseMapper postResponseMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.postRepository = postRepository;
+        this.userResponseMapper = userResponseMapper;
+        this.postResponseMapper = postResponseMapper;
     }
 
     @Override
     public UserResponse getUser(Integer id) throws NotFoundException {
-        Optional<User> userInDB = userRepository.findById(id);
-        if (userInDB.isPresent()) {
-            User user = userInDB.get();
-            return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
-        } else {
-            throw new NotFoundException("Utilisateur non référencé.");
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
+        return userResponseMapper.apply(user);
     }
 
     // Register
@@ -80,33 +82,25 @@ public class UserService implements UserInterface {
 
     @Override
     public List<Topic> getUserTopics(Integer id) throws NotFoundException {
-        Optional<User> userInDB = userRepository.findById(id);
-        if (userInDB.isPresent()) {
-            User user = userInDB.get();
-            return user.getSubscriptions();
-        } else {
-            throw new NotFoundException("Utilisateur non référencé.");
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
+        return user.getSubscriptions();
     }
 
     @Override
-    public List<Post> getUserFeed(Integer id) throws NotFoundException {
-        Optional<User> userInDB = userRepository.findById(id);
-        if (userInDB.isPresent()) {
-            User user = userInDB.get();
-            List<Topic> topics = user.getSubscriptions();
-            List<Post> feed = new ArrayList<>();
+    public Stream<PostResponse> getUserFeed(Integer id) throws NotFoundException {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
 
-            for (Topic topic : topics) {
-                List<Post> posts = postRepository.findTop10ByTopicOrderByCreatedAtDesc(topic);
-                feed.addAll(posts);
-            }
+        List<Topic> topics = user.getSubscriptions();
+        List<Post> feed = new ArrayList<>();
 
-            feed.sort((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
-
-            return feed.stream().limit(25).collect(Collectors.toList());
-        } else {
-            throw new NotFoundException("Utilisateur non référencé.");
+        for (Topic topic : topics) {
+            List<Post> posts = postRepository.findTop10ByTopicOrderByCreatedAtDesc(topic);
+            feed.addAll(posts);
         }
+
+        feed.sort((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
+
+        return feed.stream().map(postResponseMapper).limit(25);
+
     }
 }
