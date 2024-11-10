@@ -1,9 +1,6 @@
 package com.openclassrooms.mddapi.controllers;
 
-import com.openclassrooms.mddapi.dtos.PostResponse;
-import com.openclassrooms.mddapi.dtos.TopicResponse;
-import com.openclassrooms.mddapi.dtos.UserRequest;
-import com.openclassrooms.mddapi.dtos.UserResponse;
+import com.openclassrooms.mddapi.dtos.*;
 import com.openclassrooms.mddapi.entities.Topic;
 import com.openclassrooms.mddapi.exceptions.NotFoundException;
 import com.openclassrooms.mddapi.mappers.TopicResponseMapper;
@@ -44,7 +41,8 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}/feed")
-    public Stream<PostResponse> getUserFeed(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int id) throws NotFoundException {
-            return userService.getUserFeed(id);
+    public Stream<PostResponse> getUserFeed(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int id,
+                                            @Valid @RequestBody FeedRequest feedRequest) throws NotFoundException {
+            return userService.getUserFeed(id, feedRequest.getLimit(), feedRequest.getOffset());
     }
 }

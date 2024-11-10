@@ -10,8 +10,12 @@ import com.openclassrooms.mddapi.mappers.PostResponseMapper;
 import com.openclassrooms.mddapi.repositories.PostRepository;
 import com.openclassrooms.mddapi.repositories.TopicRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService implements PostInterface {
@@ -20,13 +24,15 @@ public class PostService implements PostInterface {
     private final TopicRepository topicRepository;
     private final UserRepository userRepository;
     private final PostResponseMapper postResponseMapper;
+    private final EntityManager entityManager;
 
     @Autowired
-    public PostService(PostRepository postRepository, TopicRepository topicRepository, UserRepository userRepository, PostResponseMapper postResponseMapper) {
+    public PostService(PostRepository postRepository, TopicRepository topicRepository, UserRepository userRepository, PostResponseMapper postResponseMapper, EntityManager entityManager) {
         this.postRepository = postRepository;
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;
         this.postResponseMapper = postResponseMapper;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -53,5 +59,22 @@ public class PostService implements PostInterface {
                 .orElseThrow(() -> new NotFoundException("Article non référencé."));
 
         return postResponseMapper.apply(post);
+    }
+
+    public List<Post> getFeed(List<Integer> topicIds, int limit, int offset) {
+        String topicIdsString = topicIds.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+
+        String queryStr = String.format("""
+            SELECT * FROM posts p
+            WHERE p.topic_id IN (%s)
+            ORDER BY p.created_at DESC
+            LIMIT %d OFFSET %d
+        """, topicIdsString, limit, offset);
+
+        Query query = entityManager.createNativeQuery(queryStr, Post.class);
+
+        return query.getResultList();
     }
 }

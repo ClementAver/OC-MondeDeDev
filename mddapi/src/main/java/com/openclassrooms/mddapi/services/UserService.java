@@ -10,13 +10,13 @@ import com.openclassrooms.mddapi.exceptions.AlreadyExistException;
 import com.openclassrooms.mddapi.exceptions.NotFoundException;
 import com.openclassrooms.mddapi.mappers.PostResponseMapper;
 import com.openclassrooms.mddapi.mappers.UserResponseMapper;
-import com.openclassrooms.mddapi.repositories.PostRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -26,14 +26,17 @@ public class UserService implements UserInterface {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PostRepository postRepository;
+    private final PostService postService;
     private final UserResponseMapper userResponseMapper;
     private final PostResponseMapper postResponseMapper;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PostRepository postRepository, UserResponseMapper userResponseMapper, PostResponseMapper postResponseMapper) {
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PostService postService, UserResponseMapper userResponseMapper, PostResponseMapper postResponseMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.postRepository = postRepository;
+        this.postService = postService;
+
         this.userResponseMapper = userResponseMapper;
         this.postResponseMapper = postResponseMapper;
     }
@@ -87,20 +90,17 @@ public class UserService implements UserInterface {
     }
 
     @Override
-    public Stream<PostResponse> getUserFeed(Integer id) throws NotFoundException {
+    public Stream<PostResponse> getUserFeed(int id, int limit, int offset) throws NotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
 
-        List<Topic> topics = user.getSubscriptions();
-        List<Post> feed = new ArrayList<>();
+        List<Integer> topicIds = user.getSubscriptions().stream().map(Topic::getId).toList();
 
-        for (Topic topic : topics) {
-            List<Post> posts = postRepository.findTop10ByTopicOrderByCreatedAtDesc(topic);
-            feed.addAll(posts);
-        }
+        logger.info("User feed retrieved for user with id: {}, topicIds : {}", id, topicIds);
 
-        feed.sort((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
+        List<Post> posts = postService.getFeed(topicIds, limit, offset);
 
-        return feed.stream().map(postResponseMapper).limit(25);
+        logger.info("User feed retrieved for user with id: {}, posts : {}", id, posts);
 
+        return posts.stream().map(postResponseMapper);
     }
 }

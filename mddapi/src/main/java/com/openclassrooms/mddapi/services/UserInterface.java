@@ -21,6 +21,6 @@ public interface UserInterface {
 
     List<Topic> getUserTopics(Integer id) throws NotFoundException;
 
-    Stream<PostResponse> getUserFeed(Integer id) throws NotFoundException;
+    Stream<PostResponse> getUserFeed(int id, int limit, int offset) throws NotFoundException;
 }
 
