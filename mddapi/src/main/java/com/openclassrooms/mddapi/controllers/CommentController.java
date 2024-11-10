@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dtos.CommentRequest;
 import com.openclassrooms.mddapi.dtos.CommentResponse;
-import com.openclassrooms.mddapi.entities.Comment;
 import com.openclassrooms.mddapi.exceptions.NotFoundException;
 import com.openclassrooms.mddapi.services.CommentService;
 import jakarta.validation.Valid;
@@ -10,7 +9,6 @@ import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
