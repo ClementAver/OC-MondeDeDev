@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.dtos.LoginRequest;
 import com.openclassrooms.mddapi.dtos.LoginResponse;
 import com.openclassrooms.mddapi.dtos.UserRequest;
 import com.openclassrooms.mddapi.entities.User;
@@ -25,16 +26,16 @@ public class AuthenticationService implements AuthenticationInterface {
     }
 
     @Override
-    public LoginResponse authenticate(UserRequest userRequest) throws NotFoundException {
-        User user = userRepository.findByEmail(userRequest.getEmail())
-                .or(() -> userRepository.findByName(userRequest.getName()))
+    public LoginResponse authenticate(LoginRequest loginRequest) throws NotFoundException {
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .or(() -> userRepository.findByName(loginRequest.getName()))
                 .orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         // Handle email or name authentication.
-                        userRequest.getEmail() != null ? userRequest.getEmail() : userRequest.getName(),
-                        userRequest.getPassword()
+                        loginRequest.getEmail() != null ? loginRequest.getEmail() : loginRequest.getName(),
+                        loginRequest.getPassword()
                 )
         );
 

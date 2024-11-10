@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.controllers;
 
+import com.openclassrooms.mddapi.dtos.LoginRequest;
 import com.openclassrooms.mddapi.dtos.LoginResponse;
 import com.openclassrooms.mddapi.dtos.UserRequest;
 import com.openclassrooms.mddapi.dtos.UserResponse;
@@ -31,12 +32,17 @@ public class AuthenticationController {
     @PostMapping("auth/register")
     public LoginResponse register(@Valid @RequestBody UserRequest userRequest) throws AlreadyExistException, NotFoundException {
         userService.createUser(userRequest);
-        return authenticationService.authenticate(userRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setName(userRequest.getName());
+        loginRequest.setEmail(userRequest.getEmail());
+        loginRequest.setPassword(userRequest.getPassword());
+
+        return authenticationService.authenticate(loginRequest);
     }
 
     @PostMapping("auth/login")
-    public LoginResponse authenticate(@Valid @RequestBody UserRequest userRequest) throws NotFoundException {
-        return authenticationService.authenticate(userRequest);
+    public LoginResponse authenticate(@Valid @RequestBody LoginRequest loginRequest) throws NotFoundException {
+        return authenticationService.authenticate(loginRequest);
     }
 
     @PostMapping("auth/refresh")

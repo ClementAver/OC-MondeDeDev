@@ -13,12 +13,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequest {
-    @NotBlank(message = "Le nom ne doit pas être vide.")
+public class LoginRequest {
+
     @Size(max = 64, message = "Le nom ne doit pas dépasser 64 caractères.")
     String name; // Needed at register
 
-    @NotNull(message = "Le courriel est obligatoire.")
+
     @Email(message = "L'adresse email doit être valide.")
     String email;
 
