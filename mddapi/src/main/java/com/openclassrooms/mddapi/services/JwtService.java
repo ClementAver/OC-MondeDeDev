@@ -1,11 +1,10 @@
 package com.openclassrooms.mddapi.services;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import io.jsonwebtoken.security.SignatureException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,13 +86,12 @@ public class JwtService implements JwtInterface {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    private Claims extractAllClaims(String token) throws ExpiredJwtException, MalformedJwtException, SignatureException {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
     }
 
     private Key getSignInKey() {

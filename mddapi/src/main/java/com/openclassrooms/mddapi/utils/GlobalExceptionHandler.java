@@ -4,6 +4,8 @@ import com.openclassrooms.mddapi.exceptions.AlreadyExistException;
 import com.openclassrooms.mddapi.exceptions.NoUserInContextException;
 import com.openclassrooms.mddapi.exceptions.NotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
@@ -21,7 +23,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 
 import java.nio.file.AccessDeniedException;
-import java.security.SignatureException;
+import io.jsonwebtoken.security.SignatureException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +105,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("L'utilisateur ne dispose d'aucune session.", new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity<String> handleMalformedJwtException(MalformedJwtException ex) {
+        return new ResponseEntity<>("Le token est malformé.", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<String> handleJwtException(JwtException ex) {
+        return new ResponseEntity<>(ex.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
 
     private Map<String, List<String>> getErrorsMap(List<String> errors) {
         Map<String, List<String>> errorResponse = new HashMap<>();
