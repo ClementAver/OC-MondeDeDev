@@ -1,0 +1,11 @@
+<label [for]="id">{{ label }}</label>
+<input
+  [name]="name"
+  [type]="type"
+  [id]="id"
+  [placeholder]="placeholder"
+  [required]="required"
+  [class]="classes"
+  [value]="value"
+  (input)="handleInput($event)"
+/>

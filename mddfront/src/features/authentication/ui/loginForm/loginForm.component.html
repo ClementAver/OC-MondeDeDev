@@ -1,0 +1,20 @@
+<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+  <custom-input
+    label="Courriel ou nom d'utilisateur"
+    type="text"
+    id="identifier"
+    formControlName="identifier"
+    [required]="true"
+    [placeholder]="'john.doe@mail.me'"
+  />
+
+  <custom-input
+    label="Mot de passe"
+    type="password"
+    id="password"
+    formControlName="password"
+    [required]="true"
+  />
+
+  <custom-button type="submit" text="Se connecter"></custom-button>
+</form>

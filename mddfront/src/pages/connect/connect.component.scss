@@ -1,0 +1,37 @@
+.connect-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  height: fit-content;
+  gap: 20vh;
+  padding: 1rem;
+
+  figure {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 300px;
+      width: 100%;
+    }
+  }
+
+  nav::ng-deep {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10vw;
+
+    @media screen and (max-width: 768px) {
+      justify-content: center;
+      gap: 2rem;
+      custom-button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}
