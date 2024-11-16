@@ -1,0 +1,33 @@
+<form
+  class="register-form"
+  [formGroup]="registerForm"
+  (ngSubmit)="handleSubmit()"
+>
+  <custom-input
+    label="Nom d'utilisateur"
+    type="text"
+    id="username"
+    formControlName="username"
+    [required]="true"
+    [placeholder]="'JohnDoe'"
+  />
+
+  <custom-input
+    label="Courriel"
+    type="email"
+    id="email"
+    formControlName="email"
+    [required]="true"
+    [placeholder]="'john.doe@mail.me'"
+  />
+
+  <custom-input
+    label="Mot de passe"
+    type="password"
+    id="password"
+    formControlName="password"
+    [required]="true"
+  />
+
+  <custom-button type="submit" text="S'inscrire"></custom-button>
+</form>

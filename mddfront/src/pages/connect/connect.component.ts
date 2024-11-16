@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CustomButton } from '../../shared/button/button.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'connect',
   standalone: true,
-  imports: [CustomButton],
+  imports: [CustomButton, RouterLink],
   templateUrl: './connect.component.html',
   styleUrl: './connect.component.scss',
 })

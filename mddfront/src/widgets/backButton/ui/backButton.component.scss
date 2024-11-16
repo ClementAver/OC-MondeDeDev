@@ -1,0 +1,11 @@
+.back-navigation-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: transparent;
+  border: none;
+
+  &.disabled {
+    display: none;
+  }
+}
