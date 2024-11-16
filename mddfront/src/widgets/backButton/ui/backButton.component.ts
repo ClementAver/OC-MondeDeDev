@@ -1,10 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { NavigationService } from '../model/navigationService';
+import { NavigationService } from '../model/NavigationService';
 
 @Component({
   selector: 'back-button',
   standalone: true,
-  providers: [NavigationService],
   templateUrl: './backButton.component.html',
   styleUrls: ['./backButton.component.scss'],
 })
