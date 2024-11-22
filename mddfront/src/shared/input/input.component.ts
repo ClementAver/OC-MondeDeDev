@@ -21,6 +21,7 @@ export class CustomInput implements ControlValueAccessor {
   @Input() id: string = '';
   @Input() name: string = '';
   @Input() required: boolean = false;
+  @Input() invalidMessage: string = '';
   @Input() classes: {
     disabled?: boolean;
   } = {
@@ -42,7 +43,6 @@ export class CustomInput implements ControlValueAccessor {
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
-
 
   handleInput(event: Event): void {
     const input = event.target as HTMLInputElement;

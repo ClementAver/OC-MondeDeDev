@@ -1,16 +1,19 @@
-import { Component, inject } from '@angular/core';
-import { NavigationService } from '../model/NavigationService';
+import { Component, inject, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'back-button',
   standalone: true,
+  providers: [Router],
   templateUrl: './backButton.component.html',
   styleUrls: ['./backButton.component.scss'],
 })
 export class BackButton {
-  private navigation = inject(NavigationService);
+  @Input() route: string = '';
+
+  constructor(private router: Router) {}
 
   handleClick() {
-    this.navigation.back();
+    this.router.navigate([this.route]);
   }
 }

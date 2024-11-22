@@ -1,7 +1,8 @@
 :host {
-display: block;
-width: 100%;
-max-width: fit-content;
+  display: block;
+  width: 100%;
+
+  margin-bottom: 0.4rem;
 }
 
 label {
@@ -13,7 +14,6 @@ input {
   padding: 0.4rem;
   border-radius: 0.4rem;
   border: 1px solid black;
-  margin-bottom: 1rem;
 
   width: 100%;
   max-width: 250px;

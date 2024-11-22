@@ -28,6 +28,7 @@
   }
 
   nav {
+    transition: transform 0.3s ease-in-out;
     margin-left: auto;
     display: flex;
     flex-flow: row nowrap;
@@ -37,6 +38,10 @@
     width: fit-content;
     font-weight: bold;
     position: static;
+
+    &.hidden {
+      transform: translateX(100%);
+    }
 
     a {
       cursor: pointer;

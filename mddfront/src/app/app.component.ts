@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { Menu } from '../shared/menu/menu.component';
 import { CommonModule } from '@angular/common';
+import { environment } from '../shared/config/environment';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +12,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'mddfront';
+  title = environment.title;
   menuDisplay: boolean = false;
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        (event as NavigationEnd).urlAfterRedirects !==
-        '/connect'
+        (event as NavigationEnd).urlAfterRedirects !== '/connect'
           ? (this.menuDisplay = true)
           : (this.menuDisplay = false);
       }
