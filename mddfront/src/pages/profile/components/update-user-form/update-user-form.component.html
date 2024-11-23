@@ -1,0 +1,36 @@
+<form
+  class="update-user-form"
+  [formGroup]="updateUserForm"
+  (ngSubmit)="handleSubmit()"
+>
+  <custom-input
+    label="Nom d'utilisateur"
+    type="text"
+    id="username"
+    formControlName="username"
+    [required]="true"
+    [placeholder]="'JohnDoe'"
+  />
+  <p *ngIf="username?.hasError('required')" class="invalid">Champs requis.</p>
+  <p *ngIf="username?.hasError('maxlength')" class="invalid">
+    Le nom doit comporter au plus 256 caractères.
+  </p>
+
+  <custom-input
+    label="Courriel"
+    type="email"
+    id="email"
+    formControlName="email"
+    [required]="true"
+    [placeholder]="'john.doe@mail.me'"
+  />
+  <p *ngIf="email?.hasError('required')" class="invalid">Champs requis.</p>
+  <p *ngIf="email?.hasError('maxlength')" class="invalid">
+    Le nom doit comporter au plus 256 caractères.
+  </p>
+  <p *ngIf="email?.hasError('pattern')" class="invalid">
+    L'adresse courriel doit être valide.
+  </p>
+
+  <custom-button type="submit" text="Sauvegarder"></custom-button>
+</form>
