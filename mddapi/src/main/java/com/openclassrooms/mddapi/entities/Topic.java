@@ -24,11 +24,11 @@ public class Topic {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Size(max = 255, message = "Le titre ne doit pas dépasser 255 caractères.")
+    @Size(max = 256, message = "Le titre ne doit pas dépasser 255 caractères.")
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Size(max = 2000, message = "La description ne doit pas dépasser 2000 caractères.")
+    @Size(max = 2048, message = "La description ne doit pas dépasser 2000 caractères.")
     @Column(name = "description", nullable = false)
     private String description;
 

@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dtos.PostResponse;
+import com.openclassrooms.mddapi.dtos.UpdateUserRequest;
 import com.openclassrooms.mddapi.dtos.UserRequest;
 import com.openclassrooms.mddapi.dtos.UserResponse;
 import com.openclassrooms.mddapi.entities.Topic;
@@ -17,7 +18,7 @@ public interface UserInterface {
 
     UserResponse getUser(Integer id) throws NotFoundException;
 
-    UserResponse updateUser(Integer id, UserRequest userRequest) throws NotFoundException;
+    UserResponse updateUser(Integer id, UpdateUserRequest userRequest) throws NotFoundException;
 
     List<Topic> getUserTopics(Integer id) throws NotFoundException;
 

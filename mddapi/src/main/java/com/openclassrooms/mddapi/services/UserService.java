@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dtos.PostResponse;
+import com.openclassrooms.mddapi.dtos.UpdateUserRequest;
 import com.openclassrooms.mddapi.dtos.UserRequest;
 import com.openclassrooms.mddapi.dtos.UserResponse;
 import com.openclassrooms.mddapi.entities.Post;
@@ -66,15 +67,12 @@ public class UserService implements UserInterface {
     }
 
     @Override
-    public UserResponse updateUser(Integer id, UserRequest userRequest) throws NotFoundException {
+    public UserResponse updateUser(Integer id, UpdateUserRequest userRequest) throws NotFoundException {
         Optional<User> userInDB = userRepository.findById(id);
         if (userInDB.isPresent()) {
             User user = userInDB.get();
             user.setName(userRequest.getName());
             user.setEmail(userRequest.getEmail());
-            if (userRequest.getPassword() != null && !userRequest.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-            }
 
             userRepository.save(user);
             return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());

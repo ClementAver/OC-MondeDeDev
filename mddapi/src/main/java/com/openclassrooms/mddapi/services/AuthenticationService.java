@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dtos.LoginRequest;
 import com.openclassrooms.mddapi.dtos.LoginResponse;
-import com.openclassrooms.mddapi.dtos.UserRequest;
 import com.openclassrooms.mddapi.entities.User;
 import com.openclassrooms.mddapi.exceptions.NotFoundException;
 import com.openclassrooms.mddapi.repositories.UserRepository;
@@ -34,7 +33,7 @@ public class AuthenticationService implements AuthenticationInterface {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         // Handle email or name authentication.
-                        loginRequest.getEmail() != null ? loginRequest.getEmail() : loginRequest.getName(),
+                        loginRequest.getEmail().isEmpty() ? loginRequest.getName() :  loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
         );

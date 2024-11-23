@@ -23,7 +23,7 @@ public class Comment {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Size(max = 250, message = "Le commentaire ne doit pas dépasser 250 caractères.")
+    @Size(max = 256, message = "Le commentaire ne doit pas dépasser 250 caractères.")
     @Column(name = "content", nullable = false)
     private String content;
 

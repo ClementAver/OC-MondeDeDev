@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public UserResponse updateUser(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int id, @Valid @RequestBody UserRequest userRequest) throws NotFoundException {
+    public UserResponse updateUser(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int id, @Valid @RequestBody UpdateUserRequest userRequest) throws NotFoundException {
             return userService.updateUser(id, userRequest);
     }
 

@@ -24,11 +24,11 @@ public class Post {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Size(max = 250, message = "Le titre ne doit pas dépasser 250 caractères.")
+    @Size(max = 256, message = "Le titre ne doit pas dépasser 250 caractères.")
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Size(max = 8000, message = "Le contenu ne doit pas dépasser 8000 caractères.")
+    @Size(max = 8192, message = "Le contenu ne doit pas dépasser 8000 caractères.")
     @Column(name = "content", nullable = false)
     private String content;
 

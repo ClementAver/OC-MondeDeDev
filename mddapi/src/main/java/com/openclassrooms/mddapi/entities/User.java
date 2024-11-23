@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -28,11 +29,12 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Size(max = 255)
+    @Size(max = 256)
+    @Email(message = "L'adresse email doit être valide.")
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Size(max = 255)
+    @Size(max = 256)
     @Column(name = "name", nullable = false)
     private String name;
 

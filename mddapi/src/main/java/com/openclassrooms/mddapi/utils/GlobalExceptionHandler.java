@@ -30,16 +30,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Map<String, String>> handleNotFoundException(NotFoundException ex) {
+        return new ResponseEntity<>(getErrorMap(ex.getMessage()), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AlreadyExistException.class)
-    public ResponseEntity<String> handleAlreadyExistException(AlreadyExistException ex) {
-        return new ResponseEntity<>(ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT);
+    public ResponseEntity<Map<String, String>> handleAlreadyExistException(AlreadyExistException ex) {
+        return new ResponseEntity<>(getErrorMap(ex.getMessage()), new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -70,49 +71,54 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<String> handleAuthenticationException(AuthenticationException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Map<String, String>> handleAuthenticationException(AuthenticationException ex) {
+        return new ResponseEntity<>(getErrorMap(ex.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex) {
-        return new ResponseEntity<>("Identifiants incorrects.", new HttpHeaders(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Map<String, String>> handleBadCredentialsException(BadCredentialsException ex) {
+        return new ResponseEntity<>(getErrorMap("Identifiants incorrects."), new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AccountStatusException.class)
-    public ResponseEntity<String> handleAccountStatusException(AccountStatusException ex) {
-        return new ResponseEntity<>("Compte vérouillé.", new HttpHeaders(), HttpStatus.LOCKED);
+    public ResponseEntity<Map<String, String>> handleAccountStatusException(AccountStatusException ex) {
+        return new ResponseEntity<>(getErrorMap("Compte vérouillé."), new HttpHeaders(), HttpStatus.LOCKED);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
-
-        return new ResponseEntity<>("Vous ne disposez pas des autorisations requises.", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException ex) {
+        return new ResponseEntity<>(getErrorMap("Vous ne disposez pas des autorisations requises."), new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(SignatureException.class)
-    public ResponseEntity<String> handleSignatureException(SignatureException ex) {
-        return new ResponseEntity<>("La signature du Token est invalide.", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    public ResponseEntity<Map<String, String>> handleSignatureException(SignatureException ex) {
+        return new ResponseEntity<>(getErrorMap("La signature du Token est invalide."), new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException ex) {
-        return new ResponseEntity<>("Le Token a expiré.", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    public ResponseEntity<Map<String, String>> handleExpiredJwtException(ExpiredJwtException ex) {
+        return new ResponseEntity<>(getErrorMap("Le Token a expiré."), new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(NoUserInContextException.class)
-    public ResponseEntity<String> handleNoUserInContextException(NoUserInContextException ex) {
-        return new ResponseEntity<>("L'utilisateur ne dispose d'aucune session.", new HttpHeaders(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Map<String, String>> handleNoUserInContextException(NoUserInContextException ex) {
+        return new ResponseEntity<>(getErrorMap("L'utilisateur ne dispose d'aucune session."), new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MalformedJwtException.class)
-    public ResponseEntity<String> handleMalformedJwtException(MalformedJwtException ex) {
-        return new ResponseEntity<>("Le token est malformé.", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    public ResponseEntity<Map<String, String>> handleMalformedJwtException(MalformedJwtException ex) {
+        return new ResponseEntity<>(getErrorMap("Le token est malformé."), new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(JwtException.class)
-    public ResponseEntity<String> handleJwtException(JwtException ex) {
-        return new ResponseEntity<>(ex.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN);
+    public ResponseEntity<Map<String, String>> handleJwtException(JwtException ex) {
+        return new ResponseEntity<>(getErrorMap(ex.getMessage()), new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
+
+    private Map<String, String> getErrorMap(String errorMessage) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", errorMessage);
+        return errorResponse;
     }
 
     private Map<String, List<String>> getErrorsMap(List<String> errors) {
