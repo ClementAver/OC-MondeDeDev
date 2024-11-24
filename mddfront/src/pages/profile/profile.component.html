@@ -1,0 +1,11 @@
+<div class="profile-wrapper">
+  <h1>Profil utilisateur</h1>
+  <update-user-form />
+
+  <custom-button
+    class="logout-button"
+    [text]="'Se déconnecter'"
+    [classes]="{ logout: true }"
+    (click)="handleLogout()"
+  ></custom-button>
+</div>

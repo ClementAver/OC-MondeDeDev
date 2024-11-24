@@ -29,8 +29,6 @@ export class UpdateUserFormComponent {
   ngOnInit() {
     this.authenticationService.me().subscribe({
       next: (response) => {
-        console.log(response);
-
         this.me = response;
         this.updateUserForm.get('username')?.setValue(response.name);
         this.updateUserForm.get('email')?.setValue(response.email);
@@ -71,11 +69,11 @@ export class UpdateUserFormComponent {
 
     this.profileService.updateUser(this.id as number, requestBody).subscribe({
       next: (response) => {
-        this.updateUserForm.get('username')?.setValue(response.name);
-        this.updateUserForm.get('email')?.setValue(response.email);
+        // this.updateUserForm.get('username')?.setValue(response.name);
+        // this.updateUserForm.get('email')?.setValue(response.email);
+        this.authenticationService.logout();
       },
       error: (error: any) => {
-        console.error('Login failed', error);
         alert(error.message);
       },
     });

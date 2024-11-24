@@ -66,11 +66,7 @@ export class LoginForm {
     this.authenticationService.login(requestBody).subscribe({
       next: () => {
         this.router.navigate(['/posts']);
-      },
-      error: (error: any) => {
-        console.error('Login failed', error);
-        alert(error.message);
-      },
+      }
     });
   }
 }

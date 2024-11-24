@@ -69,10 +69,6 @@ export class RegisterForm {
       next: () => {
         this.router.navigate(['/connect']);
       },
-      error: (error: any) => {
-        console.error('Login failed', error);
-        alert(error.message);
-      },
     });
   }
 }

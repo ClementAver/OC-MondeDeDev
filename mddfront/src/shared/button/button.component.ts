@@ -12,9 +12,11 @@ export class CustomButton {
   @Input() classes: {
     outlined?: boolean;
     disabled?: boolean;
+    logout?: boolean;
   } = {
     outlined: false,
     disabled: false,
+    logout: false,
   };
   @Input() action: Function = () => {};
 

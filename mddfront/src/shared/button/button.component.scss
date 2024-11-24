@@ -9,6 +9,7 @@ button {
   font-weight: bold;
   margin-top: 0.8rem;
   margin-bottom: 1rem;
+  cursor: pointer;
 
   &.outlined {
     background-color: white;
@@ -20,5 +21,11 @@ button {
     background-color: lightgrey;
     border: none;
     color: grey;
+  }
+
+  &.logout {
+    color: red;
+    border: none;
+    background-color: transparent;
   }
 }

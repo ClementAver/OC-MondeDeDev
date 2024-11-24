@@ -110,7 +110,6 @@ export class AuthenticationService {
   isAuthenticated(): Observable<boolean> {
     return this.me().pipe(
       map((result) => {
-        console.log(result);
         return !!result.id;
       }),
       catchError(() => of(false))
