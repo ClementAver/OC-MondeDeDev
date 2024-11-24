@@ -1,3 +1,5 @@
+@import "../stylesheets/variables.scss";
+
 :host {
   position: fixed;
   top: 0;
@@ -9,6 +11,10 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+
+  a:has(img) {
+    height: 100%;
+  }
 
   img {
     height: 100%;
@@ -45,12 +51,31 @@
     }
 
     a {
+      color: black;
       cursor: pointer;
+      text-decoration: none;
+
+      img {
+        height: fit-content;
+      }
+
+      &.active {
+        color: $primary-color;
+        text-decoration: underline;
+      }
     }
 
     #profile {
       position: static;
       width: fit-content;
+      height: fit-content;
+      border: 2px solid transparent;
+
+      &.active {
+        border: 2px solid $primary-color;
+        box-sizing: border-box;
+        border-radius: 100%;
+      }
     }
 
     @media screen and (max-width: 768px) {

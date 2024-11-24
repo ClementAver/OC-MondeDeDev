@@ -1,11 +1,13 @@
-<img src="mdd_logo.png" alt="" (click)="goConnect()" />
+<a routerLink="/posts">
+  <img src="mdd_logo.png" alt="MDD's logo." />
+</a>
 <button class="burger" (click)="toggleDisplay()">
   <img src="burger.png" alt="Trois segments horizontaux parallèles." />
 </button>
 <nav class="menu-nav" [class]="classes">
   <a routerLink="/posts" routerLinkActive="active">Articles</a>
   <a routerLink="/topics" routerLinkActive="active">Thèmes</a>
-  <a id="profile" routerLink="/profile">
+  <a id="profile" routerLink="/profile" routerLinkActive="active">
     <img
       src="user.png"
       alt="Silouhette abstraite tracées en mauve sur fond gris."

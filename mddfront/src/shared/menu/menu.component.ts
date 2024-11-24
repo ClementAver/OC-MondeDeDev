@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterModule,
+} from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'menu',
   standalone: true,
-  imports: [CommonModule],
-  providers: [Router, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterModule, RouterLink, RouterLinkActive],
+  providers: [Router],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
@@ -19,10 +24,6 @@ export class Menu {
 
   toggleDisplay() {
     this.classes = { ...this.classes, hidden: !this.classes.hidden };
-  }
-
-  goConnect() {
-    this.router.navigate(['/connect']);
   }
 
   ngOnInit() {
