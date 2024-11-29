@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ErrorHandler } from '../../../shared/utility/ErrorHandler';
 import { AuthenticationService } from '../../../features/authentication/api/AuthenticationService';
 import { catchError, Observable, throwError } from 'rxjs';
-import { MeResponse } from '../../../features/authentication/model/MeResponse.interface';
+import { User as MeResponse } from '../../../entities/User/model/User.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {

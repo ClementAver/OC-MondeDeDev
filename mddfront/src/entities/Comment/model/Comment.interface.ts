@@ -1,7 +1,6 @@
-export interface User {
+export interface Comment {
   id: number;
-  email: string;
-  name: string;
+  content: string;
   createdAt: string;
   updatedAt: string;
 }

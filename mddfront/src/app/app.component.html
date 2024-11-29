@@ -1,2 +1,5 @@
-<menu *ngIf="menuDisplay"></menu>
+<menu
+  [ngClass]="{ displayed: menuIsVisible }"
+  [navIsVisible]="navIsVisible"
+></menu>
 <router-outlet></router-outlet>

@@ -10,7 +10,7 @@ import { CustomInput } from '../../../../shared/input/input.component';
 import { CustomButton } from '../../../../shared/button/button.component';
 import { ProfileService } from '../../api/ProfileService';
 import { AuthenticationService } from '../../../../features/authentication/api/AuthenticationService';
-import { MeResponse } from '../../../../features/authentication/model/MeResponse.interface';
+import { User as MeResponse } from '../../../../entities/User/model/User.interface';
 
 @Component({
   selector: 'update-user-form',

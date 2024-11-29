@@ -1,10 +1,17 @@
 <a routerLink="/posts">
   <img src="mdd_logo.png" alt="MDD's logo." />
 </a>
-<button class="burger" (click)="toggleDisplay()">
+<button
+  class="burger"
+  [ngClass]="{ displayed: classes.navIsVisible }"
+  (click)="toggleDisplay()"
+>
   <img src="burger.png" alt="Trois segments horizontaux parallèles." />
 </button>
-<nav class="menu-nav" [class]="classes">
+<nav
+  class="menu-nav"
+  [ngClass]="{ displayed: classes.navIsVisible, hidden: classes.hidden }"
+>
   <a routerLink="/posts" routerLinkActive="active">Articles</a>
   <a routerLink="/topics" routerLinkActive="active">Thèmes</a>
   <a id="profile" routerLink="/profile" routerLinkActive="active">

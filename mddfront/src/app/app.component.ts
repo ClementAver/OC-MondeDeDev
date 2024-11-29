@@ -19,13 +19,19 @@ import { environment } from '../shared/config/environment';
 })
 export class AppComponent {
   title = environment.title;
-  menuDisplay: boolean = false;
+  menuIsVisible = true;
+  navIsVisible = true;
+
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         (event as NavigationEnd).urlAfterRedirects !== '/connect'
-          ? (this.menuDisplay = true)
-          : (this.menuDisplay = false);
+          ? (this.menuIsVisible = true)
+          : (this.menuIsVisible = false);
+        (event as NavigationEnd).urlAfterRedirects !== '/login' &&
+        (event as NavigationEnd).urlAfterRedirects !== '/register'
+          ? (this.navIsVisible = true)
+          : (this.navIsVisible = false);
       }
     });
   }

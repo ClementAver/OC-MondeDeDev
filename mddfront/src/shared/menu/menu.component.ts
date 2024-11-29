@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   Router,
   RouterLink,
@@ -16,11 +16,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./menu.component.scss'],
 })
 export class Menu {
+  @Input() navIsVisible: boolean = true;
+
   classes = {
     hidden: false,
+    navIsVisible: this.navIsVisible,
   };
-
-  constructor(private router: Router) {}
 
   toggleDisplay() {
     this.classes = { ...this.classes, hidden: !this.classes.hidden };
@@ -32,5 +33,9 @@ export class Menu {
         this.classes = { ...this.classes, hidden: false };
       }
     });
+  }
+
+  ngOnChanges() {
+    this.classes.navIsVisible = this.navIsVisible;
   }
 }

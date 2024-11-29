@@ -1,0 +1,8 @@
+<article class="topic-tile">
+  <h3>{{ topic.name }}</h3>
+  <p>{{ "Description: " + topic.description }}</p>
+  <custom-button
+    [text]="topic.subscribed ? 'Se désabonner' : 's\'abonner'"
+    (click)="toggleSubscription(topic, userId)"
+  ></custom-button>
+</article>

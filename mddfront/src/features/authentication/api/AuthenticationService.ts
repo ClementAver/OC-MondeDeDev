@@ -1,13 +1,13 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../shared/config/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import type { LoginResponse } from '../model/LoginResponse.interface';
-import type { MeResponse } from '../model/MeResponse.interface';
+import { User as MeResponse } from '../../../entities/User/model/User.interface';
 import { tap } from 'rxjs/operators';
 import { catchError, Observable, throwError, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ErrorHandler } from '../../../shared/utility/ErrorHandler';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -68,7 +68,8 @@ export class AuthenticationService {
   me(): Observable<MeResponse> {
     const accessToken = this.getAccessToken();
     if (!accessToken) {
-      return throwError(() => new Error('Access token is not set'));
+      throwError(() => new Error('Access token is not set'));
+      if (!this.tryRefresh()) this.logout();
     }
 
     const headers = new HttpHeaders({

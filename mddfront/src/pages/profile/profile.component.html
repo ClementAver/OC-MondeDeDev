@@ -1,5 +1,5 @@
 <div class="profile-wrapper">
-  <h1>Profil utilisateur</h1>
+  <h2>Profil utilisateur</h2>
   <update-user-form />
 
   <custom-button
@@ -9,3 +9,15 @@
     (click)="handleLogout()"
   ></custom-button>
 </div>
+
+<hr />
+
+<h2>Mes Abonnements</h2>
+
+<section class="topics">
+  <topic
+    *ngFor="let topic of userTopics"
+    [userId]="user.id"
+    [topic]="topic"
+  ></topic>
+</section>
