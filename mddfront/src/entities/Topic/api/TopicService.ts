@@ -32,7 +32,7 @@ export class TopicService {
       .get<TopicResponse[]>(`${this.apiURL}/topic`, {
         headers: this.getHeaders(),
       })
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 
   subscribe(topicId: number, userId: number): Observable<string> {
@@ -42,7 +42,7 @@ export class TopicService {
         {},
         { headers: this.getHeaders(), responseType: 'text' as 'json' }
       )
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 
   unsubscribe(topicId: number, userId: number): Observable<string> {
@@ -52,6 +52,6 @@ export class TopicService {
         {},
         { headers: this.getHeaders(), responseType: 'text' as 'json' }
       )
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 }

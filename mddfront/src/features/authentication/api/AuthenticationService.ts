@@ -38,7 +38,7 @@ export class AuthenticationService {
           sessionStorage.setItem('token', response.token);
           localStorage.setItem('refreshToken', response.refreshToken);
         }),
-        catchError(this.errorHandler.handleError)
+        catchError((error) => this.errorHandler.handleError(error))
       );
   }
 
@@ -61,11 +61,11 @@ export class AuthenticationService {
           localStorage.setItem('refreshToken', response.refreshToken);
           this.router.navigate(['/posts']);
         }),
-        catchError(this.errorHandler.handleError)
+        catchError((error) => this.errorHandler.handleError(error))
       );
   }
 
-  me(): Observable<MeResponse> {
+  me(skipAlert: boolean = false): Observable<MeResponse> {
     const accessToken = this.getAccessToken();
     if (!accessToken) {
       throwError(() => new Error('Access token is not set'));
@@ -80,7 +80,9 @@ export class AuthenticationService {
       .get<MeResponse>(`${this.apiURL}/auth/me`, {
         headers,
       })
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(
+        catchError((error) => this.errorHandler.handleError(error, skipAlert))
+      );
   }
 
   refresh(): Observable<LoginResponse> {
@@ -104,12 +106,12 @@ export class AuthenticationService {
           sessionStorage.setItem('token', response.token);
           localStorage.setItem('refreshToken', response.refreshToken);
         }),
-        catchError(this.errorHandler.handleError)
+        catchError((error) => this.errorHandler.handleError(error))
       );
   }
 
-  isAuthenticated(): Observable<boolean> {
-    return this.me().pipe(
+  isAuthenticated(skipAlert: boolean = false): Observable<boolean> {
+    return this.me(skipAlert).pipe(
       map((result) => {
         return !!result.id;
       }),

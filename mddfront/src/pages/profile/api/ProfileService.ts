@@ -33,6 +33,6 @@ export class ProfileService {
 
     return this.httpClient
       .put<MeResponse>(`${this.apiURL}/user/${id}`, requestBody, { headers })
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 }

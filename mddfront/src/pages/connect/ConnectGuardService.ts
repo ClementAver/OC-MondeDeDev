@@ -12,7 +12,8 @@ export class ConnectGuardService {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.authenticationService.isAuthenticated().pipe(
+    const skipAlert = true;
+    return this.authenticationService.isAuthenticated(skipAlert).pipe(
       switchMap((isAuth) => {
         if (isAuth) {
           this.router.navigate(['/posts']);

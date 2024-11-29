@@ -3,7 +3,7 @@ import { Observable, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ErrorHandler {
-  handleError(error: any): Observable<never> {
+  handleError(error: any, skipAlert: boolean = false): Observable<never> {
     console.log(error);
 
     let errorMessage = 'An unknown error occurred';
@@ -15,7 +15,7 @@ export class ErrorHandler {
       errorMessage = error.error;
     }
 
-    alert(errorMessage);
+    if (!skipAlert) alert(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

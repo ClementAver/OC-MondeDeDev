@@ -33,18 +33,18 @@ export class UserService {
   getUser(id: number): Observable<UserResponse> {
     return this.httpClient
       .get<UserResponse>(`${this.apiURL}/user/${id}`, { headers: this.getHeaders() })
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 
   getUserTopics(id: number): Observable<Topic[]> {
     return this.httpClient
       .get<Topic[]>(`${this.apiURL}/user/${id}/topics`, { headers: this.getHeaders() })
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 
   getUserFeed(id: number, limit: number, offset: number): Observable<Post[]> {
     return this.httpClient
       .get<Post[]>(`${this.apiURL}/user/${id}/feed?limit=${limit}&offset=${offset}`, { headers: this.getHeaders() })
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 }
