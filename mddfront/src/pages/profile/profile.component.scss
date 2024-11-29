@@ -34,7 +34,7 @@ hr {
 
 .topics {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 400px));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
   gap: 0.8rem 0.4rem;
   justify-content: center;
 

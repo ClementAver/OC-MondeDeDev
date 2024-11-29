@@ -51,11 +51,15 @@
 
     &.out-of-frame {
       overflow: hidden;
-      clip: rect(0 0 0 0);
+      clip-path: rect(0 0 0 0);
     }
 
     &.hidden {
       transform: translateX(100%);
+
+      @media screen and (min-width: 768px) {
+        transform: translateX(0);
+      }
     }
 
     a {
