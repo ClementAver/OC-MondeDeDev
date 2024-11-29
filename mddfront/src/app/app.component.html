@@ -1,5 +1,5 @@
 <menu
-  [ngClass]="{ displayed: menuIsVisible }"
+  [ngClass]="{ 'out-of-frame': !menuIsVisible }"
   [navIsVisible]="navIsVisible"
 ></menu>
 <router-outlet></router-outlet>

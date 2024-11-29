@@ -24,18 +24,26 @@ export class Menu {
   };
 
   toggleDisplay() {
-    this.classes = { ...this.classes, hidden: !this.classes.hidden };
+    if (window.innerWidth < 768) {
+      this.classes = { ...this.classes, hidden: !this.classes.hidden };
+    }
   }
 
   ngOnInit() {
+    console.log('Menu ngOnInit');
+
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) {
-        this.classes = { ...this.classes, hidden: false };
+        this.classes = { ...this.classes, hidden: true };
       }
     });
   }
 
   ngOnChanges() {
+    console.log('Menu onChange');
     this.classes.navIsVisible = this.navIsVisible;
+    if (window.innerWidth > 768) {
+      this.classes = { ...this.classes, hidden: false };
+    }
   }
 }

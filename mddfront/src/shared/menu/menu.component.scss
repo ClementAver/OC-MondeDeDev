@@ -9,7 +9,7 @@
   border-bottom: 1px solid black;
   background-color: white;
 
-  display: none;
+  display: flex;
   flex-flow: row nowrap;
   align-items: center;
 
@@ -23,7 +23,7 @@
   }
 
   button {
-    display: none;
+    display: flex;
     background-color: transparent;
     border: none;
     height: 1rem;
@@ -37,7 +37,7 @@
   }
 
   nav {
-    display: none;
+    display: flex;
     transition: transform 0.3s ease-in-out;
     margin-left: auto;
     flex-flow: row nowrap;
@@ -47,9 +47,11 @@
     width: fit-content;
     font-weight: bold;
     position: static;
+    z-index: 10;
 
-    &.displayed {
-      display: flex;
+    &.out-of-frame {
+      overflow: hidden;
+      clip: rect(0 0 0 0);
     }
 
     &.hidden {
@@ -116,5 +118,23 @@
     right: 1rem;
 
     width: fit-content;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+
+    &.hidden {
+      display: none;
+    }
+
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
   }
 }

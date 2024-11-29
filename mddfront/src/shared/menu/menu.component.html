@@ -3,21 +3,26 @@
 </a>
 <button
   class="burger"
-  [ngClass]="{ displayed: classes.navIsVisible }"
+  [ngClass]="{ 'out-of-frame': !classes.navIsVisible }"
   (click)="toggleDisplay()"
 >
   <img src="burger.png" alt="Trois segments horizontaux parallèles." />
 </button>
 <nav
   class="menu-nav"
-  [ngClass]="{ displayed: classes.navIsVisible, hidden: classes.hidden }"
+  [ngClass]="{ 'out-of-frame': !classes.navIsVisible, hidden: classes.hidden }"
 >
-  <a routerLink="/posts" routerLinkActive="active">Articles</a>
-  <a routerLink="/topics" routerLinkActive="active">Thèmes</a>
-  <a id="profile" routerLink="/profile" routerLinkActive="active">
+  <a routerLink="/posts" routerLinkActive="active" (click)="toggleDisplay()">Articles</a>
+  <a routerLink="/topics" routerLinkActive="active" (click)="toggleDisplay()">Thèmes</a>
+  <a id="profile" routerLink="/profile" routerLinkActive="active" (click)="toggleDisplay()">
     <img
       src="user.png"
       alt="Silouhette abstraite tracées en mauve sur fond gris."
     />
   </a>
 </nav>
+<div
+  [ngClass]="{ 'out-of-frame': !classes.navIsVisible, hidden: classes.hidden }"
+  class="overlay"
+  (click)="toggleDisplay()"
+></div>
