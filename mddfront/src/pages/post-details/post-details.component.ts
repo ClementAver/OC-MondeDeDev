@@ -5,10 +5,12 @@ import { UserService } from '../../entities/User/api/UserService';
 import { TopicService } from '../../entities/Topic/api/TopicService';
 import { TemplatePost } from '../../entities/Post/model/TemplatePost.interface';
 import { forkJoin } from 'rxjs';
+import { BackButton } from '../../widgets/backButton/ui/backButton.component';
 
 @Component({
   selector: 'post-details',
   standalone: true,
+  imports: [BackButton],
   templateUrl: './post-details.component.html',
   styleUrls: ['./post-details.component.scss'],
 })

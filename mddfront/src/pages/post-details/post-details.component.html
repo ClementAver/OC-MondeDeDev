@@ -1,1 +1,14 @@
-<h1>coucou</h1>
+<back-button route="/posts"></back-button>
+<main class="main-post-details">
+  <article class="post">
+    <h1 class="post-title">{{ post.title }}</h1>
+    <div class="date-author-topic">
+      <span>{{ post.date }}</span>
+      <span>{{ post.author }}</span>
+      <span>{{ post.topic }}</span>
+    </div>
+    <p>Content : {{ post.content }}</p>
+  </article>
+  <hr />
+  <section></section>
+</main>

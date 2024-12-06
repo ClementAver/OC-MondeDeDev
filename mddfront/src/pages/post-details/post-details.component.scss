@@ -1,0 +1,34 @@
+:host {
+  margin-top: 6rem;
+}
+
+main.main-post-details {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 3rem;
+}
+
+.post-title {
+  margin-bottom: 2rem;
+}
+
+hr {
+  width: calc(100% - 2rem);
+  max-width: calc(1200px - 2rem);
+  margin: 2rem auto;
+}
+
+.post {
+  width: 100%;
+  max-width: 1200px;
+  padding: 1rem;
+}
+
+.date-author-topic {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.6rem;
+  margin-bottom: 2rem;
+}
