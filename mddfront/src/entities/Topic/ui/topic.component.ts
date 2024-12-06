@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CustomButton } from '../../../shared/button/button.component';
-import { TemplateTopics } from '../model/TemplateTopics.interface';
+import { TemplateTopic } from '../model/TemplateTopic.interface';
 import { TopicService } from '../api/TopicService';
 
 @Component({
@@ -12,7 +12,7 @@ import { TopicService } from '../api/TopicService';
 })
 export class Topic {
   @Input() userId: number;
-  @Input() topic: TemplateTopics;
+  @Input() topic: TemplateTopic;
 
   constructor(private topicService: TopicService) {
     this.userId = -1;
@@ -26,7 +26,7 @@ export class Topic {
     };
   }
 
-  toggleSubscription(topic: TemplateTopics, id: number) {
+  toggleSubscription(topic: TemplateTopic, id: number) {
     console.log('1');
     if (topic && id) {
       if (topic.subscribed) {

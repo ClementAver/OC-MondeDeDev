@@ -1,0 +1,24 @@
+.post-tile::ng-deep {
+  padding: 0.4rem 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+
+  p.content {
+    margin-bottom: 0.6rem;
+
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 5;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+  }
+
+  .date-author {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+}

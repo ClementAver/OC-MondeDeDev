@@ -6,7 +6,7 @@ import { Topic as TopicResponse } from '../../entities/Topic/model/Topic.interfa
 import { UserService } from '../../entities/User/api/UserService';
 import { AuthenticationService } from '../../features/authentication/api/AuthenticationService';
 import { User } from '../../entities/User/model/User.interface';
-import { TemplateTopics } from '../../entities/Topic/model/TemplateTopics.interface';
+import { TemplateTopic } from '../../entities/Topic/model/TemplateTopic.interface';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -20,7 +20,7 @@ export class Topics implements OnInit {
   topics: TopicResponse[] = [];
   user: User;
   userTopics: TopicResponse[] = [];
-  templateTopics: TemplateTopics[] = [];
+  templateTopic: TemplateTopic[] = [];
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -54,13 +54,13 @@ export class Topics implements OnInit {
 
               // Process the topics after user topics are available.
               for (let topic of this.topics) {
-                let templateTopic: TemplateTopics = {
+                let templateTopic: TemplateTopic = {
                   ...topic,
                   subscribed: this.userTopics.some(
                     (userTopic) => userTopic.id === topic.id
                   ),
                 };
-                this.templateTopics.push(templateTopic);
+                this.templateTopic.push(templateTopic);
               }
             },
             error: (error) => {

@@ -4,4 +4,6 @@ export interface Post {
   content: string;
   createdAt: string;
   updatedAt: string;
+  topic: number;
+  user: number;
 }

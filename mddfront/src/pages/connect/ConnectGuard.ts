@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class ConnectGuardService {
+export class ConnectGuard {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router

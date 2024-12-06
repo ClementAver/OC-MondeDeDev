@@ -5,12 +5,10 @@ import { ErrorHandler } from '../../../shared/utility/ErrorHandler';
 import { AuthenticationService } from '../../../features/authentication/api/AuthenticationService';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { User as UserResponse } from '../model/User.interface';
-import { Topic } from '../../Topic/model/Topic.interface';
-import { Post } from '../../Post/model/Post.interface';
+import { Comment } from '../model/Comment.interface';
 
 @Injectable({ providedIn: 'root' })
-export class UserService {
+export class CommentService {
   private apiURL = environment.apiURL;
 
   constructor(
@@ -29,28 +27,26 @@ export class UserService {
     });
   }
 
-  getUser(id: number): Observable<UserResponse> {
+  getCommentsByPostId(postId: number): Observable<Comment[]> {
     return this.httpClient
-      .get<UserResponse>(`${this.apiURL}/user/${id}`, {
+      .get<Comment[]>(`${this.apiURL}/comment/post/${postId}`, {
         headers: this.getHeaders(),
       })
       .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 
-  getUserTopics(id: number): Observable<Topic[]> {
+  createComment(
+    content: string,
+    post: number,
+    user: number
+  ): Observable<Comment> {
     return this.httpClient
-      .get<Topic[]>(`${this.apiURL}/user/${id}/topics`, {
-        headers: this.getHeaders(),
-      })
-      .pipe(catchError((error) => this.errorHandler.handleError(error)));
-  }
-
-  getUserFeed(id: number, limit: number, offset: number): Observable<Post[]> {
-    return this.httpClient
-      .post<Post[]>(
-        `${this.apiURL}/user/${id}/feed`,
-        { limit, offset },
-        { headers: this.getHeaders() }
+      .post<Comment>(
+        `${this.apiURL}/comment`,
+        { content, post, user },
+        {
+          headers: this.getHeaders(),
+        }
       )
       .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }

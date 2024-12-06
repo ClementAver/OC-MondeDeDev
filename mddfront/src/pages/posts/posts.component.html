@@ -1,1 +1,12 @@
-<h1>WIP - FEED PAGE</h1>
+<main class="main-posts">
+  <section class="posts-wrapper">
+    <div class="tools-wrapper">
+      <custom-button
+        [text]="'Créer un article'"
+        (click)="goToCreatePost()"
+      ></custom-button>
+    <div><span class="sorting">Trier par</span></div>
+    </div>
+    <post *ngFor="let post of templatePosts" [post]="post"></post>
+  </section>
+</main>

@@ -4,7 +4,7 @@ import { UpdateUserFormComponent } from './components/update-user-form/update-us
 import { CustomButton } from '../../shared/button/button.component';
 import { AuthenticationService } from '../../features/authentication/api/AuthenticationService';
 import { Topic } from '../../entities/Topic/ui/topic.component';
-import { TemplateTopics } from '../../entities/Topic/model/TemplateTopics.interface';
+import { TemplateTopic } from '../../entities/Topic/model/TemplateTopic.interface';
 import { UserService } from '../../entities/User/api/UserService';
 import { User } from '../../entities/User/model/User.interface';
 
@@ -17,7 +17,7 @@ import { User } from '../../entities/User/model/User.interface';
 })
 export class Profile {
   user: User;
-  userTopics: TemplateTopics[] = [];
+  userTopics: TemplateTopic[] = [];
   constructor(
     private authenticationService: AuthenticationService,
     private userService: UserService

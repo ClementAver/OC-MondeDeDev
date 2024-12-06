@@ -1,5 +1,5 @@
 import { Topic } from './Topic.interface';
 
-export interface TemplateTopics extends Topic {
+export interface TemplateTopic extends Topic {
   subscribed: boolean;
 }
