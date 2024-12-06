@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RegisterForm } from '../../features/authentication/ui/registerForm/registerForm.component';
+import { RegisterForm } from '../../features/authentication/ui/registerForm/register-form.component';
 import { BackButton } from '../../widgets/backButton/ui/backButton.component';
 import { Router, RouterModule } from '@angular/router';
 

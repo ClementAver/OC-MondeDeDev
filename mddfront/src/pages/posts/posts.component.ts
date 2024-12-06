@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../entities/User/api/UserService';
 import { AuthenticationService } from '../../features/authentication/api/AuthenticationService';
 import { CustomButton } from '../../shared/button/button.component';
-
 @Component({
   selector: 'posts',
   standalone: true,
@@ -30,8 +29,8 @@ export class Posts implements OnInit {
       id: -1,
       name: '',
       email: '',
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
+      createdAt: new Date().toLocaleDateString(),
+      updatedAt: new Date().toLocaleDateString(),
     };
   }
 
@@ -49,13 +48,6 @@ export class Posts implements OnInit {
 
               // Mapping process from Post to TemplatePost.
               for (let post of this.posts) {
-                let templatePost: TemplatePost = {
-                  id: post.id,
-                  title: post.title,
-                  content: post.content,
-                  date: post.updatedAt,
-                  author: '',
-                };
                 // Get author name for the post.
                 this.userService.getUser(post.user).subscribe({
                   next: (user) => {
@@ -65,6 +57,7 @@ export class Posts implements OnInit {
                       content: post.content,
                       date: new Date(post.updatedAt).toLocaleDateString(),
                       author: user.name,
+                      topic: 'No further call needed here (property unused).',
                     };
                     this.templatePosts.push(templatePost);
                   },

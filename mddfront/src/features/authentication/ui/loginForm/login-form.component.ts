@@ -15,8 +15,8 @@ import { AuthenticationService } from '../../api/AuthenticationService';
   standalone: true,
   imports: [ReactiveFormsModule, CustomInput, CustomButton, CommonModule],
   providers: [Router],
-  templateUrl: './loginForm.component.html',
-  styleUrls: ['./loginForm.component.scss'],
+  templateUrl: './login-form.component.html',
+  styleUrls: ['./login-form.component.scss'],
 })
 export class LoginForm {
   constructor(

@@ -5,7 +5,7 @@ import { ErrorHandler } from '../../../shared/utility/ErrorHandler';
 import { AuthenticationService } from '../../../features/authentication/api/AuthenticationService';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Topic as TopicResponse } from '../model/Topic.interface';
+import { Topic as TopicResponse, Topic } from '../model/Topic.interface';
 
 @Injectable({ providedIn: 'root' })
 export class TopicService {
@@ -30,6 +30,14 @@ export class TopicService {
   getTopics(): Observable<TopicResponse[]> {
     return this.httpClient
       .get<TopicResponse[]>(`${this.apiURL}/topic`, {
+        headers: this.getHeaders(),
+      })
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
+  }
+
+  getTopic(id: number): Observable<TopicResponse> {
+    return this.httpClient
+      .get<TopicResponse>(`${this.apiURL}/topic/${id}`, {
         headers: this.getHeaders(),
       })
       .pipe(catchError((error) => this.errorHandler.handleError(error)));

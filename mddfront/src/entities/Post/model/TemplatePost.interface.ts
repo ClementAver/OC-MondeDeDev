@@ -4,4 +4,5 @@ export interface TemplatePost {
   content: string;
   date: string;
   author: string;
+  topic: string;
 }

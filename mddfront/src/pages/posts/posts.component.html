@@ -1,3 +1,4 @@
+<h1 class="sr-only">Articles</h1>
 <main class="main-posts">
   <section class="posts-wrapper">
     <div class="tools-wrapper">
@@ -5,7 +6,7 @@
         [text]="'Créer un article'"
         (click)="goToCreatePost()"
       ></custom-button>
-    <div><span class="sorting">Trier par</span></div>
+      <div><span class="sorting">Trier par</span></div>
     </div>
     <post *ngFor="let post of templatePosts" [post]="post"></post>
   </section>

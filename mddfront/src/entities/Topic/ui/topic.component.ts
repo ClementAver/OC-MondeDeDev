@@ -21,8 +21,6 @@ export class Topic {
       name: '',
       description: '',
       subscribed: false,
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
     };
   }
 
