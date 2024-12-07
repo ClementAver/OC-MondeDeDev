@@ -82,4 +82,15 @@ export class Posts implements OnInit {
   goToCreatePost() {
     this.router.navigate(['/create-post']);
   }
+
+  desc: boolean = true;
+  sortTemplatePosts() {
+    this.templatePosts.sort((a, b) => {
+      this.desc = !this.desc;
+      if (this.desc) {
+        return a.date > b.date ? 1 : -1;
+      }
+      return a.date < b.date ? 1 : -1;
+    });
+  }
 }

@@ -14,6 +14,14 @@
 
 .sorting {
   font-weight: bold;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.reverse {
+  display: inline-block;
+  transform: rotate(180deg);
 }
 
 .tools-wrapper {

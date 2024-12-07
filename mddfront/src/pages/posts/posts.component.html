@@ -6,7 +6,11 @@
         [text]="'Créer un article'"
         (click)="goToCreatePost()"
       ></custom-button>
-      <div><span class="sorting">Trier par</span></div>
+      <div>
+        <button class="sorting" (click)="sortTemplatePosts()">
+          Trier par <span [ngClass]="{ reverse: !desc }">↑</span>
+        </button>
+      </div>
     </div>
     <post *ngFor="let post of templatePosts" [post]="post"></post>
   </section>
