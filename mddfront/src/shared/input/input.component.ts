@@ -1,9 +1,11 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'custom-input',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
   providers: [
@@ -24,8 +26,10 @@ export class CustomInput implements ControlValueAccessor {
   @Input() invalidMessage: string = '';
   @Input() classes: {
     disabled?: boolean;
+    labelSr?: boolean;
   } = {
     disabled: false,
+    labelSr: false,
   };
 
   value: string = '';

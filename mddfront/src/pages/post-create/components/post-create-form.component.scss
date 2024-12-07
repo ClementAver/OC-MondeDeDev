@@ -1,0 +1,60 @@
+form.create-post-form {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  width: fit-content;
+  max-width: 250px;
+}
+
+.invalid {
+  font-size: 0.8rem;
+  color: red;
+  width: 100%;
+  margin-bottom: 0.6rem;
+
+  &:last-child {
+    margin-bottom: 1rem;
+  }
+}
+
+select,
+textarea {
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  border: 1px solid black;
+
+  width: 100%;
+  max-width: 250px;
+  background: white;
+}
+
+select {
+  margin-bottom: 0.4rem;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+div:has(select, textarea) {
+  width: 100%;
+
+  margin-bottom: 0.4rem;
+}
+
+label {
+  display: block;
+  width: fit-content;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

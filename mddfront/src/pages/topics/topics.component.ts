@@ -63,14 +63,8 @@ export class Topics implements OnInit {
                 this.templateTopic.push(templateTopic);
               }
             },
-            error: (error) => {
-              console.error('Error fetching user topics', error);
-            },
           });
         }
-      },
-      error: (error) => {
-        console.error('Error fetching user or topics', error);
       },
     });
   }

@@ -1,0 +1,50 @@
+<form
+  class="create-post-form"
+  [formGroup]="createPostForm"
+  (ngSubmit)="handleSubmit()"
+>
+  <div>
+    <label for="topic" class="sr-only">Thèmes</label>
+    <select formControlName="topic" name="topic" aria-placeholder="" id="topic">
+      <option [value]="0">Sélectionner un thème</option>
+      <option *ngFor="let topic of topics" [value]="topic.id">
+        {{ topic.name }}
+      </option>
+    </select>
+    <p
+      *ngIf="createPostForm.get('topic')?.hasError('required') || isFalse"
+      class="invalid"
+    >
+      Champs requis.
+    </p>
+  </div>
+
+  <custom-input
+    label="Titre de l'article"
+    type="text"
+    id="title"
+    formControlName="title"
+    [required]="true"
+    [placeholder]="'Titre de l\'article'"
+    [classes]="{ labelSr: true }"
+  />
+  <p *ngIf="title?.hasError('required')" class="invalid">Champs requis.</p>
+  <p *ngIf="title?.hasError('maxlength')" class="invalid">
+    Le titre de l'article doit comporter au plus 256 caractères.
+  </p>
+
+  <div>
+    <textarea
+      name="content"
+      id="content"
+      formControlName="content"
+      placeholder="Contenu de l'article"
+    ></textarea>
+    <p *ngIf="content?.hasError('required')" class="invalid">Champs requis.</p>
+    <p *ngIf="content?.hasError('maxlength')" class="invalid">
+      Le titre de l'article doit comporter au plus 256 caractères.
+    </p>
+  </div>
+
+  <custom-button type="submit" text="Créer"></custom-button>
+</form>

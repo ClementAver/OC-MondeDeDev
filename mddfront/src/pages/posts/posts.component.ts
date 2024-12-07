@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../entities/User/api/UserService';
 import { AuthenticationService } from '../../features/authentication/api/AuthenticationService';
 import { CustomButton } from '../../shared/button/button.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'posts',
   standalone: true,
@@ -23,7 +24,8 @@ export class Posts implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.user = {
       id: -1,
@@ -61,19 +63,10 @@ export class Posts implements OnInit {
                     };
                     this.templatePosts.push(templatePost);
                   },
-                  error: (err) => {
-                    console.error('Error fetching user (author):', err);
-                  },
                 });
               }
             },
-            error: (err) => {
-              console.error('Error fetching user feed:', err);
-            },
           });
-      },
-      error: (err) => {
-        console.error('Error fetching user:', err);
       },
     });
   }
@@ -87,6 +80,6 @@ export class Posts implements OnInit {
   }
 
   goToCreatePost() {
-    console.log('Create post');
+    this.router.navigate(['/create-post']);
   }
 }

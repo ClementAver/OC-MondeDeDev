@@ -14,7 +14,6 @@ import { AuthenticationService } from '../../api/AuthenticationService';
   selector: 'login-form',
   standalone: true,
   imports: [ReactiveFormsModule, CustomInput, CustomButton, CommonModule],
-  providers: [Router],
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss'],
 })
@@ -66,7 +65,7 @@ export class LoginForm {
     this.authenticationService.login(requestBody).subscribe({
       next: () => {
         this.router.navigate(['/posts']);
-      }
+      },
     });
   }
 }
