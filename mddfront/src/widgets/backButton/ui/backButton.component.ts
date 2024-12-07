@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { RouterModule, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'back-button',
   standalone: true,
-  imports: [RouterModule, RouterLink],
+  imports: [ RouterLink],
   templateUrl: './backButton.component.html',
   styleUrls: ['./backButton.component.scss'],
 })

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import {
   Router,
-  RouterOutlet,
   NavigationEnd,
-  RouterModule,
+  RouterOutlet,
 } from '@angular/router';
 import { Menu } from '../shared/menu/menu.component';
 import { CommonModule } from '@angular/common';
@@ -12,8 +11,7 @@ import { environment } from '../shared/config/environment';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Menu, CommonModule, RouterModule],
-  providers: [Router],
+  imports: [ Menu, CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

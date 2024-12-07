@@ -1,17 +1,14 @@
 import { Component, Input } from '@angular/core';
 import {
-  Router,
   RouterLink,
   RouterLinkActive,
-  RouterModule,
 } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'menu',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterLink, RouterLinkActive],
-  providers: [Router],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })

@@ -15,7 +15,6 @@ import { AuthenticationService } from '../../api/AuthenticationService';
   selector: 'register-form',
   standalone: true,
   imports: [ReactiveFormsModule, CustomInput, CustomButton, CommonModule],
-  providers: [Router],
   templateUrl: './register-form.component.html',
   styleUrls: ['./register-form.component.scss'],
 })
