@@ -18,10 +18,17 @@ hr {
   margin: 2rem auto;
 }
 
-.post {
+.post,
+.comments {
   width: 100%;
   max-width: 1200px;
   padding: 1rem;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 1rem;
+margin-bottom: 1rem;
 }
 
 .date-author-topic {

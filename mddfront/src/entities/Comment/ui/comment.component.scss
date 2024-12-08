@@ -1,0 +1,28 @@
+.comment {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  padding: 0 2rem;
+
+  span {
+    @media screen and (max-width: 768px) {
+      margin-left: auto;
+    }
+  }
+
+  p {
+    flex-grow: 1;
+    max-width: 450px;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: lightgrey;
+
+    @media screen and (max-width: 768px) {
+      order: -1;
+      background-color: transparent;
+      width: 100%;
+      max-width: none;
+      padding: 0 0;
+    }
+  }
+}

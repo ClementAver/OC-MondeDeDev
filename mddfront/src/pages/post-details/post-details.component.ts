@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { PostService } from '../../entities/Post/api/PostService';
 import { UserService } from '../../entities/User/api/UserService';
 import { TopicService } from '../../entities/Topic/api/TopicService';
+import { CommentService } from '../../entities/Comment/api/CommentService';
 import { TemplatePost } from '../../entities/Post/model/TemplatePost.interface';
 import { forkJoin } from 'rxjs';
 import { BackButton } from '../../widgets/backButton/ui/backButton.component';
+import { TemplateComment } from '../../entities/Comment/model/TemplateComment.interface';
+import { Comment } from '../../entities/Comment/ui/comment.component';
 
 @Component({
   selector: 'post-details',
   standalone: true,
-  imports: [BackButton],
+  imports: [BackButton, Comment, CommonModule],
   templateUrl: './post-details.component.html',
   styleUrls: ['./post-details.component.scss'],
 })
@@ -23,12 +27,14 @@ export class PostDetails implements OnInit {
     author: '',
     topic: '',
   };
+  comments: TemplateComment[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
     private userService: UserService,
-    private topicService: TopicService
+    private topicService: TopicService,
+    private commentService: CommentService
   ) {}
 
   ngOnInit(): void {
@@ -40,8 +46,9 @@ export class PostDetails implements OnInit {
             forkJoin({
               user: this.userService.getUser(post.user),
               topic: this.topicService.getTopic(post.topic),
+              comments: this.commentService.getCommentsByPostId(post.id),
             }).subscribe({
-              next: ({ user, topic }) => {
+              next: ({ user, topic, comments }) => {
                 this.post = {
                   id: post.id,
                   title: post.title,
@@ -50,17 +57,20 @@ export class PostDetails implements OnInit {
                   author: user.name,
                   topic: topic.name,
                 };
-              },
-              error: (err) => {
-                console.error(
-                  "Error fetching post's details (author or topic):",
-                  err
-                );
+
+                for (let comment of comments) {
+                  let templateComment = { author: '', content: '' };
+                  this.userService.getUser(comment.user).subscribe({
+                    next: (user) => {
+                      templateComment.author = user.name;
+                      templateComment.content = comment.content;
+
+                      this.comments.push(templateComment);
+                    },
+                  });
+                }
               },
             });
-          },
-          error: (err) => {
-            console.error('Error fetching post:', err);
           },
         });
       }

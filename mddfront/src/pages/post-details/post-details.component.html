@@ -10,5 +10,8 @@
     <p>Content : {{ post.content }}</p>
   </article>
   <hr />
-  <section></section>
+  <section class="comments">
+    <h2>Commentaires</h2>
+    <comment *ngFor="let comment of comments" [comment]="comment"></comment>
+  </section>
 </main>
