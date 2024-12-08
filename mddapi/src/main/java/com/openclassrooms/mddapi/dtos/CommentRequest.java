@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentRequest {
-    @Size(max = 256, message = "Le contenu ne doit pas dépasser 250 caractères.")
+    @Size(max = 256, message = "Le contenu ne doit pas dépasser 256 caractères.")
     private String content;
 
     private int post;
