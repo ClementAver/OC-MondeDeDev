@@ -23,6 +23,11 @@ public class TopicController {
         return topicService.getTopics();
     }
 
+    @GetMapping("/topic/{topicId}")
+    public TopicResponse getTopic(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int topicId) throws NotFoundException {
+        return topicService.getTopic(topicId);
+    }
+
     @PostMapping("/topic/{topicId}/subscribe/{userId}")
     public String subscribe(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).")  int topicId,
                                             @PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int userId) throws NotFoundException {

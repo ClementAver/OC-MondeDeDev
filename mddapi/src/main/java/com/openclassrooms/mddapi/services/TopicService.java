@@ -33,6 +33,13 @@ public class TopicService implements TopicInterface {
     }
 
     @Override
+    public TopicResponse getTopic(Integer topicId) throws NotFoundException {
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() -> new NotFoundException("Thème non référencé."));
+        return topicResponseMapper.apply(topic);
+    }
+
+    @Override
     public String subscribe(Integer topicId, Integer userId) throws NotFoundException {
         Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Thème non référencé."));
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
