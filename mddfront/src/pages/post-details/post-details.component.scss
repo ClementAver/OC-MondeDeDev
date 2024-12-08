@@ -1,4 +1,7 @@
 :host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
   margin-top: 6rem;
 }
 
@@ -6,8 +9,11 @@ main.main-post-details {
   width: 100%;
   max-width: 1200px;
   margin-top: 3rem;
-}
 
+  @media screen and (max-width: 768px) {
+    margin-bottom: 135px;
+  }
+}
 .post-title {
   margin-bottom: 2rem;
 }
@@ -28,12 +34,13 @@ hr {
 h2 {
   font-weight: 400;
   font-size: 1rem;
-margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .date-author-topic {
   display: flex;
   flex-flow: row wrap;
+  gap: 1rem;
   justify-content: space-between;
   align-items: center;
   margin-top: 0.6rem;

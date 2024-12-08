@@ -10,11 +10,12 @@ import { forkJoin } from 'rxjs';
 import { BackButton } from '../../widgets/backButton/ui/backButton.component';
 import { TemplateComment } from '../../entities/Comment/model/TemplateComment.interface';
 import { Comment } from '../../entities/Comment/ui/comment.component';
+import { CommentCreateForm } from './components/comment-create-form/comment-create-form.component';
 
 @Component({
   selector: 'post-details',
   standalone: true,
-  imports: [BackButton, Comment, CommonModule],
+  imports: [BackButton, Comment, CommonModule, CommentCreateForm],
   templateUrl: './post-details.component.html',
   styleUrls: ['./post-details.component.scss'],
 })

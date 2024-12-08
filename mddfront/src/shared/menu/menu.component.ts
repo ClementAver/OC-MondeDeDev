@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,7 +13,7 @@ export class Menu {
   @Input() navIsVisible: boolean = true;
 
   classes = {
-    hidden: false,
+    hidden: true,
     navIsVisible: this.navIsVisible,
   };
 
@@ -27,7 +24,6 @@ export class Menu {
   }
 
   ngOnChanges() {
-    console.log('Menu onChange');
     this.classes.navIsVisible = this.navIsVisible;
   }
 }

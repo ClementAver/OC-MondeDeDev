@@ -1,0 +1,24 @@
+<form
+  class="create-comment-form"
+  [formGroup]="createCommentForm"
+  (ngSubmit)="handleSubmit()"
+>
+  <div>
+    <div class="textarea-comment-wrapper">
+      <label for="content" class="sr-only">Commentaire</label>
+      <textarea
+        name="content"
+        id="content"
+        formControlName="content"
+        placeholder="Écrivez ici votre commentaire"
+      ></textarea>
+      <button class="mail" type="submit">
+        <img src="send.png" alt="Contours formant une icône d'enveloppe." />
+      </button>
+    </div>
+    <p *ngIf="content?.hasError('required')" class="invalid">Champs requis.</p>
+    <p *ngIf="content?.hasError('maxlength')" class="invalid">
+      Le commentaire doit comporter au plus 256 caractères.
+    </p>
+  </div>
+</form>
