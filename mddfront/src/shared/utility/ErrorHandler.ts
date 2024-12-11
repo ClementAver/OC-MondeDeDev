@@ -4,8 +4,6 @@ import { Observable, throwError } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ErrorHandler {
   handleError(error: any, skipAlert: boolean = false): Observable<never> {
-    console.log(error);
-
     let errorMessage = 'An unknown error occurred';
     if (error.error && error.error.errors) {
       errorMessage = error.error.errors.join('\n');

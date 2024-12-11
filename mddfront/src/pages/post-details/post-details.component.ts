@@ -25,6 +25,7 @@ export class PostDetails implements OnInit {
     title: '',
     content: '',
     date: new Date().toLocaleDateString(),
+    timestamp: new Date(),
     author: '',
     topic: '',
   };
@@ -54,6 +55,7 @@ export class PostDetails implements OnInit {
                   id: post.id,
                   title: post.title,
                   content: post.content,
+                  timestamp: new Date(post.updatedAt),
                   date: new Date(post.updatedAt).toLocaleDateString(),
                   author: user.name,
                   topic: topic.name,

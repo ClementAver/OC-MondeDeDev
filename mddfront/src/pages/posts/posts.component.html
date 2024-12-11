@@ -14,4 +14,8 @@
     </div>
     <post *ngFor="let post of templatePosts" [post]="post"></post>
   </section>
+  <nav>
+    <custom-button [text]="'←'" (click)="decrementPage()"></custom-button>
+    <custom-button [text]="'→'" (click)="incrementPage()"></custom-button>
+  </nav>
 </main>

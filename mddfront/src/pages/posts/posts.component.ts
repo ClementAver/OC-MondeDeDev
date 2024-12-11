@@ -19,7 +19,7 @@ export class Posts implements OnInit {
   posts: PostResponse[] = [];
   user: User;
   templatePosts: TemplatePost[] = [];
-  limit = 10;
+  limit = 9;
   offset = 0;
 
   constructor(
@@ -41,42 +41,53 @@ export class Posts implements OnInit {
     this.authenticationService.me().subscribe({
       next: (user) => {
         this.user = user;
-        // Fetch the user feed.
-        this.userService
-          .getUserFeed(this.user.id, this.limit, this.offset)
-          .subscribe({
-            next: (posts) => {
-              this.posts = posts;
-
-              // Mapping process from Post to TemplatePost.
-              for (let post of this.posts) {
-                // Get author name for the post.
-                this.userService.getUser(post.user).subscribe({
-                  next: (user) => {
-                    let templatePost: TemplatePost = {
-                      id: post.id,
-                      title: post.title,
-                      content: post.content,
-                      date: new Date(post.updatedAt).toLocaleDateString(),
-                      author: user.name,
-                      topic: 'No further call needed here (property unused).',
-                    };
-                    this.templatePosts.push(templatePost);
-                  },
-                });
-              }
-            },
-          });
+        this.getFeedPage();
       },
     });
   }
 
-  incrementpage() {
-    this.offset += 10;
+  getFeedPage() {
+    // Fetch the user feed.
+    this.userService
+      .getUserFeed(this.user.id, this.limit, this.offset)
+      .subscribe({
+        next: (posts) => {
+          this.posts = posts;
+          this.templatePosts = [];
+          // Mapping process from Post to TemplatePost.
+          for (let post of this.posts) {
+            // Get author name for the post.
+            this.userService.getUser(post.user).subscribe({
+              next: (user) => {
+                let templatePost: TemplatePost = {
+                  id: post.id,
+                  title: post.title,
+                  content: post.content,
+                  timestamp: new Date(post.updatedAt),
+                  date: new Date(post.updatedAt).toLocaleDateString(),
+                  author: user.name,
+                  topic: 'No further call needed here (property unused).',
+                };
+                this.templatePosts.push(templatePost);
+              },
+            });
+          }
+        },
+      });
   }
 
-  decrementpage() {
-    this.offset -= 10;
+  incrementPage() {
+    if (this.offset <= this.limit) {
+      this.offset += 9;
+      this.getFeedPage();
+    }
+  }
+
+  decrementPage() {
+    if (this.offset >= this.limit) {
+      this.offset -= 9;
+      this.getFeedPage();
+    }
   }
 
   goToCreatePost() {
@@ -85,12 +96,12 @@ export class Posts implements OnInit {
 
   desc: boolean = true;
   sortTemplatePosts() {
+    this.desc = !this.desc;
     this.templatePosts.sort((a, b) => {
-      this.desc = !this.desc;
       if (this.desc) {
-        return a.date > b.date ? 1 : -1;
+        return a.timestamp > b.timestamp ? 1 : -1;
       }
-      return a.date < b.date ? 1 : -1;
+      return a.timestamp < b.timestamp ? 1 : -1;
     });
   }
 }

@@ -16,6 +16,7 @@ export class Post {
       id: -1,
       title: '',
       content: '',
+      timestamp: new Date(),
       date: new Date().toString(),
       author: '',
       topic: '',

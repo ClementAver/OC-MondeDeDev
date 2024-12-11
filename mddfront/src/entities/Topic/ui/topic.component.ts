@@ -25,13 +25,10 @@ export class Topic {
   }
 
   toggleSubscription(topic: TemplateTopic, id: number) {
-    console.log('1');
     if (topic && id) {
       if (topic.subscribed) {
-        console.log('2');
         this.topicService.unsubscribe(topic.id, id).subscribe({
           next: () => {
-            console.log('3');
             topic.subscribed = false;
           },
           error: (err) => {
@@ -39,10 +36,8 @@ export class Topic {
           },
         });
       } else {
-        console.log('2');
         this.topicService.subscribe(topic.id, id).subscribe({
           next: () => {
-            console.log('3');
             topic.subscribed = true;
           },
           error: (err) => {

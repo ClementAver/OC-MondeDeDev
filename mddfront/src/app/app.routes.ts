@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { Connect } from '../pages/connect/connect.component';
 import { Login } from '../pages/login/login.component';
 import { Register } from '../pages/register/register.component';
-import { NotFound } from '../pages/notFound/notFound.component';
+import { NotFound } from '../pages/notFound/not-found.component';
 import { Posts } from '../pages/posts/posts.component';
 import { PostDetails } from '../pages/post-details/post-details.component';
 import { AuthGuard } from '../features/authentication/guards/AuthGuard';
