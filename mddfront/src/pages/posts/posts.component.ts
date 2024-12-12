@@ -16,11 +16,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./posts.component.scss'],
 })
 export class Posts implements OnInit {
-  posts: PostResponse[] = [];
   user: User;
+  posts: PostResponse[] = [];
   templatePosts: TemplatePost[] = [];
   limit = 9;
   offset = 0;
+  desc: boolean = true;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -49,13 +50,13 @@ export class Posts implements OnInit {
   getFeedPage() {
     // Fetch the user feed.
     this.userService
-      .getUserFeed(this.user.id, this.limit, this.offset)
+      .getUserFeed(this.user.id, this.limit, this.offset, this.desc)
       .subscribe({
         next: (posts) => {
           this.posts = posts;
-          this.templatePosts = [];
+          this.templatePosts = new Array(posts.length);
           // Mapping process from Post to TemplatePost.
-          for (let post of this.posts) {
+          posts.forEach((post, index) => {
             // Get author name for the post.
             this.userService.getUser(post.user).subscribe({
               next: (user) => {
@@ -63,15 +64,14 @@ export class Posts implements OnInit {
                   id: post.id,
                   title: post.title,
                   content: post.content,
-                  timestamp: new Date(post.updatedAt),
                   date: new Date(post.updatedAt).toLocaleDateString(),
                   author: user.name,
                   topic: 'No further call needed here (property unused).',
                 };
-                this.templatePosts.push(templatePost);
+                this.templatePosts[index] = templatePost;
               },
             });
-          }
+          });
         },
       });
   }
@@ -90,18 +90,12 @@ export class Posts implements OnInit {
     }
   }
 
-  goToCreatePost() {
-    this.router.navigate(['/create-post']);
-  }
-
-  desc: boolean = true;
   sortTemplatePosts() {
     this.desc = !this.desc;
-    this.templatePosts.sort((a, b) => {
-      if (this.desc) {
-        return a.timestamp > b.timestamp ? 1 : -1;
-      }
-      return a.timestamp < b.timestamp ? 1 : -1;
-    });
+    this.getFeedPage();
+  }
+
+  goToCreatePost() {
+    this.router.navigate(['/create-post']);
   }
 }
