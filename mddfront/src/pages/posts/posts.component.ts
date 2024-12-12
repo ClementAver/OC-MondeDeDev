@@ -8,6 +8,7 @@ import { UserService } from '../../entities/User/api/UserService';
 import { AuthenticationService } from '../../features/authentication/api/AuthenticationService';
 import { CustomButton } from '../../shared/button/button.component';
 import { Router } from '@angular/router';
+import { map, forkJoin } from 'rxjs';
 @Component({
   selector: 'posts',
   standalone: true,
@@ -47,6 +48,36 @@ export class Posts implements OnInit {
     });
   }
 
+  // getFeedPage() {
+  //   // Fetch the user feed.
+  //   this.userService
+  //     .getUserFeed(this.user.id, this.limit, this.offset, this.desc)
+  //     .subscribe({
+  //       next: (posts) => {
+  //         this.posts = posts;
+  //         const templatePostsTmp = new Array(posts.length);
+  //         // Mapping process from Post to TemplatePost.
+  //         posts.forEach((post, index) => {
+  //           // Get author name for the post.
+  //           this.userService.getUser(post.user).subscribe({
+  //             next: (user) => {
+  //               let templatePost: TemplatePost = {
+  //                 id: post.id,
+  //                 title: post.title,
+  //                 content: post.content,
+  //                 date: new Date(post.updatedAt).toLocaleDateString(),
+  //                 author: user.name,
+  //                 topic: 'No further call needed here (property unused).',
+  //               };
+  //               templatePostsTmp[index] = templatePost;
+  //             },
+  //           });
+  //         });
+  //         this.templatePosts = templatePostsTmp;
+  //       },
+  //     });
+  // }
+
   getFeedPage() {
     // Fetch the user feed.
     this.userService
@@ -54,23 +85,27 @@ export class Posts implements OnInit {
       .subscribe({
         next: (posts) => {
           this.posts = posts;
-          this.templatePosts = new Array(posts.length);
+
           // Mapping process from Post to TemplatePost.
-          posts.forEach((post, index) => {
+          const templatePostObservables = posts.map((post) =>
             // Get author name for the post.
-            this.userService.getUser(post.user).subscribe({
-              next: (user) => {
-                let templatePost: TemplatePost = {
-                  id: post.id,
-                  title: post.title,
-                  content: post.content,
-                  date: new Date(post.updatedAt).toLocaleDateString(),
-                  author: user.name,
-                  topic: 'No further call needed here (property unused).',
-                };
-                this.templatePosts[index] = templatePost;
-              },
-            });
+            this.userService.getUser(post.user).pipe(
+              map((user) => ({
+                id: post.id,
+                title: post.title,
+                content: post.content,
+                date: new Date(post.updatedAt).toLocaleDateString(),
+                author: user.name,
+                topic: 'No further call needed here (property unused).',
+              }))
+            )
+          );
+
+          // Wait for all posts to be complete (get authors).
+          forkJoin(templatePostObservables).subscribe({
+            next: (templatePosts) => {
+              this.templatePosts = templatePosts;
+            },
           });
         },
       });
