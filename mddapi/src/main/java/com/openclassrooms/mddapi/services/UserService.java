@@ -88,14 +88,14 @@ public class UserService implements UserInterface {
     }
 
     @Override
-    public Stream<PostResponse> getUserFeed(int id, int limit, int offset) throws NotFoundException {
+    public Stream<PostResponse> getUserFeed(int id, int limit, int offset, boolean sort) throws NotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
 
         List<Integer> topicIds = user.getSubscriptions().stream().map(Topic::getId).toList();
 
         logger.info("User feed retrieved for user with id: {}, topicIds : {}", id, topicIds);
 
-        List<Post> posts = postService.getFeed(topicIds, limit, offset);
+        List<Post> posts = postService.getFeed(topicIds, limit, offset, sort);
 
         logger.info("User feed retrieved for user with id: {}, posts : {}", id, posts);
 

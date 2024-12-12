@@ -61,17 +61,28 @@ public class PostService implements PostInterface {
         return postResponseMapper.apply(post);
     }
 
-    public List<Post> getFeed(List<Integer> topicIds, int limit, int offset) {
-        String topicIdsString = topicIds.stream()
+    public List<Post> getFeed(List<Integer> topicIds, int limit, int offset, boolean sort) {
+        String topicIdsStr = topicIds.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
 
-        String queryStr = String.format("""
-            SELECT * FROM posts p
-            WHERE p.topic_id IN (%s)
-            ORDER BY p.created_at DESC
-            LIMIT %d OFFSET %d
-        """, topicIdsString, limit, offset);
+        String queryStr;
+
+        if (sort) {
+            queryStr = String.format("""
+                SELECT * FROM posts p
+                WHERE p.topic_id IN (%s)
+                ORDER BY p.updated_at DESC
+                LIMIT %d OFFSET %d
+            """, topicIdsStr, limit, offset);
+        } else {
+            queryStr = String.format("""
+                SELECT * FROM posts p
+                WHERE p.topic_id IN (%s)
+                ORDER BY p.updated_at ASC
+                LIMIT %d OFFSET %d
+            """, topicIdsStr, limit, offset);
+        }
 
         Query query = entityManager.createNativeQuery(queryStr, Post.class);
 

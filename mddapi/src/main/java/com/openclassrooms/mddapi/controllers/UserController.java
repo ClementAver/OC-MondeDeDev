@@ -43,6 +43,6 @@ public class UserController {
     @PostMapping("/user/{id}/feed")
     public Stream<PostResponse> getUserFeed(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int id,
                                             @Valid @RequestBody FeedRequest feedRequest) throws NotFoundException {
-            return userService.getUserFeed(id, feedRequest.getLimit(), feedRequest.getOffset());
+            return userService.getUserFeed(id, feedRequest.getLimit(), feedRequest.getOffset(), feedRequest.isSort());
     }
 }

@@ -19,4 +19,7 @@ public class FeedRequest {
     @NotNull(message = "L'index de départ est obligatoire.")
     @Min(value = 0, message = "L'index de départ doit être égal ou supérieur à un (0).")
     int offset;
+
+    @NotNull(message = "Le tri est obligatoire.")
+    boolean sort;
 }
