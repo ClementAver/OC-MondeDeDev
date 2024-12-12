@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
 import { catchError, Observable, throwError, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ErrorHandler } from '../../../shared/utility/ErrorHandler';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -67,9 +67,17 @@ export class AuthenticationService {
 
   me(skipAlert: boolean = false): Observable<MeResponse> {
     const accessToken = this.getAccessToken();
+
     if (!accessToken) {
-      throwError(() => new Error('Access token is not set'));
-      if (!this.tryRefresh()) this.logout();
+      return this.tryRefresh().pipe(
+        switchMap((refreshed) => {
+          if (!refreshed) {
+            this.logout();
+            throw new Error('User is not authenticated');
+          }
+          return this.me(skipAlert);
+        })
+      );
     }
 
     const headers = new HttpHeaders({

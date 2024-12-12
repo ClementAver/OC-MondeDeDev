@@ -11,6 +11,8 @@ export class ErrorHandler {
       errorMessage = error.error.error;
     } else if (error.error) {
       errorMessage = error.error;
+    } else {
+      errorMessage = error.message;
     }
 
     if (!skipAlert) alert(errorMessage);
