@@ -97,7 +97,6 @@ export class Posts implements OnInit {
 
   incrementPage() {
     if (this.page < this.maxPage) {
-      console.log('incrementPage');
       this.page++;
       this.offset = (this.page - 1) * this.limit;
       this.getFeedPage();
@@ -106,7 +105,6 @@ export class Posts implements OnInit {
 
   decrementPage() {
     if (this.page > 1) {
-      console.log('decrementPage');
       this.page--;
       this.offset = (this.page - 1) * this.limit;
       this.getFeedPage();

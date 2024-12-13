@@ -7,6 +7,7 @@ import { TopicService } from '../../entities/Topic/api/TopicService';
 import { CommentService } from '../../entities/Comment/api/CommentService';
 import { TemplatePost } from '../../entities/Post/model/TemplatePost.interface';
 import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BackButton } from '../../widgets/backButton/ui/backButton.component';
 import { TemplateComment } from '../../entities/Comment/model/TemplateComment.interface';
 import { Comment } from '../../entities/Comment/ui/comment.component';
@@ -59,21 +60,20 @@ export class PostDetails implements OnInit {
                   topic: topic.name,
                 };
 
-                comments = comments.sort((a, b) => 
-                  new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+                const commentObservables = comments.map((comment) =>
+                  this.userService.getUser(comment.user).pipe(
+                    map((user) => ({
+                      author: user.name,
+                      content: comment.content,
+                    }))
+                  )
                 );
 
-                for (let comment of comments) {
-                  let templateComment = { author: '', content: '' };
-                  this.userService.getUser(comment.user).subscribe({
-                    next: (user) => {
-                      templateComment.author = user.name;
-                      templateComment.content = comment.content;
-
-                      this.comments.push(templateComment);
-                    },
-                  });
-                }
+                forkJoin(commentObservables).subscribe({
+                  next: (templateComments) => {
+                    this.comments = templateComments;
+                  },
+                });
               },
             });
           },

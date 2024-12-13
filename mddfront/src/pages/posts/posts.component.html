@@ -16,7 +16,7 @@
   </section>
   <nav>
     <custom-button [text]="'←'" (click)="decrementPage()"></custom-button>
-    <span>{{ page }} / {{ maxPage }}</span>
+    <span class="pagination">{{ page }} / {{ maxPage }}</span>
     <custom-button [text]="'→'" (click)="incrementPage()"></custom-button>
   </nav>
 </main>
