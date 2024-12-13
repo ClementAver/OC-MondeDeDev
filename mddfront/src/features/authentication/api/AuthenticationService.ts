@@ -69,15 +69,7 @@ export class AuthenticationService {
     const accessToken = this.getAccessToken();
 
     if (!accessToken) {
-      return this.tryRefresh().pipe(
-        switchMap((refreshed) => {
-          if (!refreshed) {
-            this.logout();
-            throw new Error('User is not authenticated');
-          }
-          return this.me(skipAlert);
-        })
-      );
+      return throwError(() => new Error('Access token absent.'));
     }
 
     const headers = new HttpHeaders({
@@ -97,18 +89,11 @@ export class AuthenticationService {
     const refreshToken = this.getRefreshToken();
 
     if (!refreshToken) {
-      return throwError(() => new Error('Refresh token is not set'));
+      return throwError(() => new Error('Refresh token absent.'));
     }
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'text/plain',
-    });
-
     return this.httpClient
-      .post<LoginResponse>(
-        `${this.apiURL}/auth/refresh`,
-        this.getRefreshToken()
-      )
+      .post<LoginResponse>(`${this.apiURL}/auth/refresh`, refreshToken)
       .pipe(
         tap((response) => {
           sessionStorage.setItem('token', response.token);
@@ -118,19 +103,39 @@ export class AuthenticationService {
       );
   }
 
+  /*
+   * - Access and refresh tokens aren't truthty ('') -> false.
+   * - me() ? fasle : refresh().
+   * - refresh() ? me : false.
+   * - me() ? true : false.
+   */
   isAuthenticated(skipAlert: boolean = false): Observable<boolean> {
-    return this.me(skipAlert).pipe(
-      map((result) => {
-        return !!result.id;
-      }),
-      catchError(() => of(false))
-    );
-  }
+    const accessToken = this.getAccessToken();
+    const refreshToken = this.getRefreshToken();
 
-  tryRefresh(): Observable<boolean> {
-    return this.refresh().pipe(
-      map((result) => !!result.token),
-      catchError(() => of(false))
+    if (!accessToken && !refreshToken) {
+      this.errorHandler.handleError(
+        new Error('Vos accréditations ont expiré, veuillez vous reconnecter.'),
+        skipAlert
+      );
+      return of(false);
+    }
+
+    return this.me(skipAlert).pipe(
+      map(() => true),
+      catchError(() => {
+        if (refreshToken) {
+          return this.refresh().pipe(
+            switchMap(() => this.me(skipAlert)),
+            map(() => true),
+            catchError((error) => {
+              this.errorHandler.handleError(error);
+              return of(false);
+            })
+          );
+        }
+        return of(false);
+      })
     );
   }
 }
