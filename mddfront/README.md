@@ -1,27 +1,53 @@
-# Mddfront
+# Monde De Dev
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+<div>
+<img alt="Static Badge" src="https://img.shields.io/badge/Java-%23ff7b0c">
+<img alt="Static Badge" src="https://img.shields.io/badge/Spring_Boot-5bd84c">
+<img alt="Static Badge" src="https://img.shields.io/badge/Angular-%23F44336">
+<img alt="Static Badge" src="https://img.shields.io/badge/TypeScript-3178c6">
+</div>
 
-## Development server
+Monde De Dev (MVP version) is a proof of concept aimed at providing the basics functionalities and security for a blog application, helping developers find jobs through networking.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Start the project
 
-## Code scaffolding
+Git clone:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+> git clone git@github.com:ClementAver/OC-MondeDeDev.git
 
-## Build
+### Setup
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+To initialize the database, run : mddapi/ressources/mddapi_db_script_generate.sql.
 
-## Running unit tests
+To populate the databse, run : mddapi/ressources/mddapi_db_script_populate_mock.sql.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Don't forget to check the 'application.properties' file to define the correct user.
 
-## Running end-to-end tests
+## Back
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Install dependencies:
 
-## Further help
+> cd mddapi
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+> mvn install
+
+Launch Back-end:
+
+> mvn exec:java -D exec.mainClass="com.openclassrooms.mddapi.MddapiApplication"
+
+### Api Documentation
+
+Given the api is running, can be found here :
+ http://localhost:3001/swagger-ui/index.html#/
+
+## Front
+
+Install dependencies:
+
+> cd mddfront
+
+> npm install
+
+Launch Front-end:
+
+> ng serve
