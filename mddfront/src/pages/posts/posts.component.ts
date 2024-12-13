@@ -9,6 +9,7 @@ import { AuthenticationService } from '../../features/authentication/api/Authent
 import { CustomButton } from '../../shared/button/button.component';
 import { Router } from '@angular/router';
 import { map, forkJoin } from 'rxjs';
+
 @Component({
   selector: 'posts',
   standalone: true,
@@ -19,10 +20,13 @@ import { map, forkJoin } from 'rxjs';
 export class Posts implements OnInit {
   user: User;
   posts: PostResponse[] = [];
+  total: number = 0;
   templatePosts: TemplatePost[] = [];
   limit = 9;
   offset = 0;
   desc: boolean = true;
+  page: number = 1;
+  maxPage: number = 1;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -49,6 +53,14 @@ export class Posts implements OnInit {
   }
 
   getFeedPage() {
+    // Fetch the user feed size.
+    this.userService.getUserFeedSize(this.user.id).subscribe({
+      next: (size) => {
+        this.total = size;
+        this.maxPage = Math.ceil(size / this.limit);
+        if (this.maxPage === 0) this.maxPage = 1;
+      },
+    });
     // Fetch the user feed.
     this.userService
       .getUserFeed(this.user.id, this.limit, this.offset, this.desc)
@@ -84,15 +96,19 @@ export class Posts implements OnInit {
   }
 
   incrementPage() {
-    if (this.offset <= this.limit) {
-      this.offset += 9;
+    if (this.page < this.maxPage) {
+      console.log('incrementPage');
+      this.page++;
+      this.offset = (this.page - 1) * this.limit;
       this.getFeedPage();
     }
   }
 
   decrementPage() {
-    if (this.offset >= this.limit) {
-      this.offset -= 9;
+    if (this.page > 1) {
+      console.log('decrementPage');
+      this.page--;
+      this.offset = (this.page - 1) * this.limit;
       this.getFeedPage();
     }
   }

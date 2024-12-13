@@ -45,13 +45,26 @@ export class UserService {
       .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 
-  getUserFeed(id: number, limit: number, offset: number, sort: boolean): Observable<Post[]> {
+  getUserFeed(
+    id: number,
+    limit: number,
+    offset: number,
+    sort: boolean
+  ): Observable<Post[]> {
     return this.httpClient
       .post<Post[]>(
         `${this.apiURL}/user/${id}/feed`,
         { limit, offset, sort },
         { headers: this.getHeaders() }
       )
+      .pipe(catchError((error) => this.errorHandler.handleError(error)));
+  }
+
+  getUserFeedSize(id: number): Observable<number> {
+    return this.httpClient
+      .post<number>(`${this.apiURL}/user/${id}/feed/size`, {},{
+        headers: this.getHeaders(),
+      })
       .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
 }
