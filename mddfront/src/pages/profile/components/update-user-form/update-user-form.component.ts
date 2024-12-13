@@ -47,6 +47,13 @@ export class UpdateUserFormComponent {
       Validators.required,
       Validators.pattern(this.mailRegex),
     ]),
+    password: new FormControl('', [
+      Validators.minLength(8),
+      Validators.maxLength(256),
+      Validators.pattern(
+        '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$'
+      ),
+    ]),
   });
 
   get id() {
@@ -61,16 +68,19 @@ export class UpdateUserFormComponent {
     return this.updateUserForm.get('email');
   }
 
+  get password() {
+    return this.updateUserForm.get('password');
+  }
+
   handleSubmit() {
     const requestBody = {
       name: this.updateUserForm.value.username as string,
       email: this.updateUserForm.value.email as string,
+      password: this.updateUserForm.value.password as string,
     };
 
     this.profileService.updateUser(this.id as number, requestBody).subscribe({
-      next: (response) => {
-        // this.updateUserForm.get('username')?.setValue(response.name);
-        // this.updateUserForm.get('email')?.setValue(response.email);
+      next: () => {
         this.authenticationService.logout();
       },
       error: (error: any) => {

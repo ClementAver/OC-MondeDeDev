@@ -21,6 +21,7 @@ export class ProfileService {
     requestBody: {
       name: string;
       email: string;
+      password: string;
     }
   ): Observable<MeResponse> {
     const accessToken = this.authenticationService.getAccessToken();
