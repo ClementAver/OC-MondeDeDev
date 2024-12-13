@@ -12,8 +12,6 @@ import com.openclassrooms.mddapi.exceptions.NotFoundException;
 import com.openclassrooms.mddapi.mappers.PostResponseMapper;
 import com.openclassrooms.mddapi.mappers.UserResponseMapper;
 import com.openclassrooms.mddapi.repositories.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +28,6 @@ public class UserService implements UserInterface {
     private final PostService postService;
     private final UserResponseMapper userResponseMapper;
     private final PostResponseMapper postResponseMapper;
-
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PostService postService, UserResponseMapper userResponseMapper, PostResponseMapper postResponseMapper) {
         this.userRepository = userRepository;
@@ -63,7 +59,7 @@ public class UserService implements UserInterface {
 
         userRepository.save(user);
 
-        new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
+        // return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
     }
 
     @Override
@@ -93,12 +89,16 @@ public class UserService implements UserInterface {
 
         List<Integer> topicIds = user.getSubscriptions().stream().map(Topic::getId).toList();
 
-        logger.info("User feed retrieved for user with id: {}, topicIds : {}", id, topicIds);
-
         List<Post> posts = postService.getFeed(topicIds, limit, offset, sort);
 
-        logger.info("User feed retrieved for user with id: {}, posts : {}", id, posts);
-
         return posts.stream().map(postResponseMapper);
+    }
+
+    public int getUserFeedSize(int id) throws NotFoundException {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
+
+        List<Integer> topicIds = user.getSubscriptions().stream().map(Topic::getId).toList();
+
+        return postService.getFeedSize(topicIds);
     }
 }

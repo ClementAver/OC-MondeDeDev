@@ -61,6 +61,23 @@ public class PostService implements PostInterface {
         return postResponseMapper.apply(post);
     }
 
+    @Override
+    public int getFeedSize(List<Integer> topicIds) {
+        String topicIdsStr = topicIds.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+
+        String queryStr = String.format("""
+            SELECT COUNT(*) FROM posts p
+            WHERE p.topic_id IN (%s)
+        """, topicIdsStr);
+
+        Query query = entityManager.createNativeQuery(queryStr);
+
+        return ((Number) query.getSingleResult()).intValue();
+    }
+
+    @Override
     public List<Post> getFeed(List<Integer> topicIds, int limit, int offset, boolean sort) {
         String topicIdsStr = topicIds.stream()
                 .map(String::valueOf)

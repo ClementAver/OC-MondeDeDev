@@ -45,4 +45,9 @@ public class UserController {
                                             @Valid @RequestBody FeedRequest feedRequest) throws NotFoundException {
             return userService.getUserFeed(id, feedRequest.getLimit(), feedRequest.getOffset(), feedRequest.isSort());
     }
+
+    @PostMapping("/user/{id}/feed/size")
+    public int getUserFeedSize(@PathVariable @Min(value = 1, message = "L'identifiant doit être égal ou supérieur à un (1).") int id) throws NotFoundException {
+            return userService.getUserFeedSize(id);
+    }
 }
