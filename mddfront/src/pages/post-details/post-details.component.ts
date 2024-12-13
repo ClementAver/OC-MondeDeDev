@@ -59,6 +59,10 @@ export class PostDetails implements OnInit {
                   topic: topic.name,
                 };
 
+                comments = comments.sort((a, b) => 
+                  new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+                );
+
                 for (let comment of comments) {
                   let templateComment = { author: '', content: '' };
                   this.userService.getUser(comment.user).subscribe({

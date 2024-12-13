@@ -54,6 +54,8 @@ export class Posts implements OnInit {
       .getUserFeed(this.user.id, this.limit, this.offset, this.desc)
       .subscribe({
         next: (posts) => {
+          if (!posts || posts.length === 0) return;
+
           this.posts = posts;
 
           // Mapping process from Post to TemplatePost.
