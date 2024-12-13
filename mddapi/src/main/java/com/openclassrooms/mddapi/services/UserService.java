@@ -69,6 +69,7 @@ public class UserService implements UserInterface {
             User user = userInDB.get();
             user.setName(userRequest.getName());
             user.setEmail(userRequest.getEmail());
+            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
             userRepository.save(user);
             return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
