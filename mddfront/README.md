@@ -32,8 +32,6 @@ Given the api is running, can be found here :
 
 Install dependencies:
 
-> cd mddfront
-
 > npm install
 
 Launch Front-end:
