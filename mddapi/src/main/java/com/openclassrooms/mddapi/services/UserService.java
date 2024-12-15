@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -69,7 +70,7 @@ public class UserService implements UserInterface {
             User user = userInDB.get();
             user.setName(userRequest.getName());
             user.setEmail(userRequest.getEmail());
-            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+            if (!Objects.equals(userRequest.getPassword(), "")) user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
             userRepository.save(user);
             return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
