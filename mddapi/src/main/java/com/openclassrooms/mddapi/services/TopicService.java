@@ -25,6 +25,10 @@ public class TopicService implements TopicInterface {
         this.topicResponseMapper = topicResponseMapper;
     }
 
+    /**
+     * Get all topics
+     * @return All topics
+     */
     @Override
     public List<TopicResponse> getTopics() {
         List<Topic> topics = topicRepository.findAll();
@@ -32,6 +36,12 @@ public class TopicService implements TopicInterface {
                 .map(topicResponseMapper).collect(Collectors.toList());
     }
 
+    /**
+     * Get a topic by its identifier
+     * @param topicId The topic identifier
+     * @return The topic
+     * @throws NotFoundException If the topic is not found
+     */
     @Override
     public TopicResponse getTopic(Integer topicId) throws NotFoundException {
         Topic topic = topicRepository.findById(topicId)
@@ -39,6 +49,13 @@ public class TopicService implements TopicInterface {
         return topicResponseMapper.apply(topic);
     }
 
+    /**
+     * Subscribe to a topic
+     * @param topicId The topic identifier
+     * @param userId The user identifier
+     * @return A subscription message
+     * @throws NotFoundException If the topic or the user is not found
+     */
     @Override
     public String subscribe(Integer topicId, Integer userId) throws NotFoundException {
         Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Thème non référencé."));
@@ -50,6 +67,13 @@ public class TopicService implements TopicInterface {
         return "Abonnement souscrit avec succès.";
     }
 
+    /**
+     * Unsubscribe from a topic
+     * @param topicId The topic identifier
+     * @param userId The user identifier
+     * @return An unsubscription message
+     * @throws NotFoundException If the topic or the user is not found
+     */
     @Override
     public String unsubscribe(Integer topicId, Integer userId) throws NotFoundException {
         Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Thème non référencé."));

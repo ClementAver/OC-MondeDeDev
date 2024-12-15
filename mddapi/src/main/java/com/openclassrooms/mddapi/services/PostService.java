@@ -35,6 +35,12 @@ public class PostService implements PostInterface {
         this.entityManager = entityManager;
     }
 
+    /**
+     * Create a new post
+     * @param postRequest The post to create
+     * @return The created post
+     * @throws NotFoundException If the post is not found
+     */
     @Override
     public PostResponse createPost(PostRequest postRequest) throws NotFoundException {
         Topic topic = topicRepository.findById(postRequest.getTopic())
@@ -52,7 +58,12 @@ public class PostService implements PostInterface {
         return postResponseMapper.apply(post);
     }
 
-
+    /**
+     * Get a post by its identifier
+     * @param id The post identifier
+     * @return The post
+     * @throws NotFoundException If the post is not found
+     */
     @Override
     public PostResponse getPost(Integer id) throws NotFoundException {
         Post post = postRepository.findById(id)
@@ -61,6 +72,11 @@ public class PostService implements PostInterface {
         return postResponseMapper.apply(post);
     }
 
+    /**
+     * Get the number of posts for a list of topics
+     * @param topicIds The list of topics
+     * @return The number of posts
+     */
     @Override
     public int getFeedSize(List<Integer> topicIds) {
         String topicIdsStr = topicIds.stream()
@@ -77,6 +93,14 @@ public class PostService implements PostInterface {
         return ((Number) query.getSingleResult()).intValue();
     }
 
+    /**
+     * Get a list of posts for a list of topics
+     * @param topicIds The list of topics
+     * @param limit The number of posts to return
+     * @param offset The number of posts to skip
+     * @param sort The sort order
+     * @return The feed of posts
+     */
     @Override
     public List<Post> getFeed(List<Integer> topicIds, int limit, int offset, boolean sort) {
         String topicIdsStr = topicIds.stream()

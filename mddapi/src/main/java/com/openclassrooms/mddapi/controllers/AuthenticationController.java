@@ -28,6 +28,13 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
+    /**
+     * Register then authenticate a new user.
+     * @param userRequest The user to register
+     * @return The registered then authenticated user's tokens
+     * @throws AlreadyExistException If the user already exists
+     * @throws NotFoundException If the user is not found
+     */
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("auth/register")
     public LoginResponse register(@Valid @RequestBody UserRequest userRequest) throws AlreadyExistException, NotFoundException {
@@ -40,16 +47,33 @@ public class AuthenticationController {
         return authenticationService.authenticate(loginRequest);
     }
 
+    /**
+     * Authenticate a user
+     * @param loginRequest The user's credentials
+     * @return The authenticated user's refreshed tokens
+     * @throws NotFoundException If the user is not found
+     */
     @PostMapping("auth/login")
     public LoginResponse authenticate(@Valid @RequestBody LoginRequest loginRequest) throws NotFoundException {
         return authenticationService.authenticate(loginRequest);
     }
 
+    /**
+     * Refresh the tokens of a user
+     * @param refreshToken The refresh token
+     * @return The authenticated user's refreshed tokens
+     * @throws NotFoundException If the user is not found
+     */
     @PostMapping("auth/refresh")
     public LoginResponse refresh(@RequestBody String refreshToken) throws NotFoundException {
         return authenticationService.refresh(refreshToken);
     }
 
+    /**
+     * Get the authenticated user
+     * @return The authenticated user
+     * @throws NoUserInContextException If no user is authenticated
+     */
     @GetMapping("auth/me")
     public UserResponse authenticatedUser() throws NoUserInContextException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

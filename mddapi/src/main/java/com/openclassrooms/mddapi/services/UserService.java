@@ -39,6 +39,12 @@ public class UserService implements UserInterface {
         this.postResponseMapper = postResponseMapper;
     }
 
+    /**
+     * Get a user by its identifier
+     * @param id The user identifier
+     * @return The user
+     * @throws NotFoundException If the user is not found
+     */
     @Override
     public UserResponse getUser(Integer id) throws NotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
@@ -46,6 +52,11 @@ public class UserService implements UserInterface {
     }
 
     // Register
+    /**
+     * Create a new user
+     * @param userRequest The user to create
+     * @throws AlreadyExistException If the user already exists (email)
+     */
     @Override
     public void createUser(UserRequest userRequest) throws AlreadyExistException {
         Optional<User> userInDB = userRepository.findByEmail(userRequest.getEmail());
@@ -63,6 +74,13 @@ public class UserService implements UserInterface {
         // return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
     }
 
+    /**
+     * Update a user
+     * @param id The user identifier
+     * @param userRequest The updated user infos
+     * @return The updated user
+     * @throws NotFoundException If the user is not found
+     */
     @Override
     public UserResponse updateUser(Integer id, UpdateUserRequest userRequest) throws NotFoundException {
         Optional<User> userInDB = userRepository.findById(id);
@@ -79,12 +97,27 @@ public class UserService implements UserInterface {
         }
     }
 
+    /**
+     * Get all user's subscriptions
+     * @param id The user identifier
+     * @return All user's subscriptions
+     * @throws NotFoundException If the user is not found
+     */
     @Override
     public List<Topic> getUserTopics(Integer id) throws NotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
         return user.getSubscriptions();
     }
 
+    /**
+     * Get a user feed
+     * @param id The user identifier
+     * @param limit The number of posts to return
+     * @param offset The number of posts to skip
+     * @param sort The sort order (by date - descending or ascending)
+     * @return All user's subscriptions posts
+     * @throws NotFoundException If the user is not found
+     */
     @Override
     public Stream<PostResponse> getUserFeed(int id, int limit, int offset, boolean sort) throws NotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
@@ -96,6 +129,13 @@ public class UserService implements UserInterface {
         return posts.stream().map(postResponseMapper);
     }
 
+    /**
+     * Get the user feed size
+     * @param id The user identifier
+     * @return The user feed size
+     * @throws NotFoundException If the user is not found
+     */
+    @Override
     public int getUserFeedSize(int id) throws NotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Utilisateur non référencé."));
 

@@ -31,6 +31,12 @@ private final CommentResponseMapper commentResponseMapper;
         this.commentResponseMapper = commentResponseMapper;
     }
 
+    /**
+     * Get all comments for a given post
+     * @param id The post identifier
+     * @return All comments for this post
+     * @throws NotFoundException If the post is not found
+     */
     @Override
     public Stream<CommentResponse> getCommentByPostId(Integer id) throws NotFoundException {
         postRepository.findById(id)
@@ -39,6 +45,12 @@ private final CommentResponseMapper commentResponseMapper;
         return commentRepository.findByPostId(id).stream().map(commentResponseMapper);
     }
 
+    /**
+     * Create a new comment
+     * @param commentRequest The comment to create
+     * @return The created comment
+     * @throws NotFoundException If the post is not found
+     */
     @Override
     public CommentResponse createComment(CommentRequest commentRequest) throws NotFoundException {
         User user = userRepository.findById(commentRequest.getUser())

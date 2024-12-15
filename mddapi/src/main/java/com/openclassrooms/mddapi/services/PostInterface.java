@@ -8,7 +8,6 @@ import com.openclassrooms.mddapi.exceptions.NotFoundException;
 import java.util.List;
 
 public interface PostInterface {
-
     PostResponse createPost(PostRequest postRequest) throws NotFoundException;
 
     PostResponse getPost(Integer id) throws NotFoundException;

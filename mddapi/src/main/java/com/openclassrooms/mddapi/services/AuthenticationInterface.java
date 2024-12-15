@@ -6,5 +6,7 @@ import com.openclassrooms.mddapi.exceptions.NotFoundException;
 
 public interface AuthenticationInterface {
     LoginResponse authenticate(LoginRequest loginRequest) throws NotFoundException;
+
+    LoginResponse refresh(String refreshToken) throws NotFoundException;
 }
 

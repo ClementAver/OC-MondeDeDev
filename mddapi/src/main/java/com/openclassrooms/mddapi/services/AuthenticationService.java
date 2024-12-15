@@ -24,6 +24,12 @@ public class AuthenticationService implements AuthenticationInterface {
         this.jwtService = jwtService;
     }
 
+    /**
+     * Authenticate a user
+     * @param loginRequest The user's credentials
+     * @return The authenticated user's refreshed tokens
+     * @throws NotFoundException If the user is not found
+     */
     @Override
     public LoginResponse authenticate(LoginRequest loginRequest) throws NotFoundException {
         User user = userRepository.findByEmail(loginRequest.getEmail())
@@ -48,6 +54,13 @@ public class AuthenticationService implements AuthenticationInterface {
         return loginResponse;
     }
 
+    /**
+     * Refresh a user's tokens
+     * @param refreshToken The user's refresh token
+     * @return The refreshed tokens
+     * @throws NotFoundException If the user is not found
+     */
+    @Override
     public LoginResponse refresh(String refreshToken) throws NotFoundException {
         String username = jwtService.extractUsername(refreshToken);
         User user = userRepository.findByEmail(username)
