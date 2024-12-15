@@ -17,17 +17,15 @@ Git clone:
 
 ### Setup
 
-To initialize the database, run : mddapi/ressources/mddapi_db_script_generate.sql.
+To initialize the database, run : mddapi/ressources/mddapi_db_script_generate.sql
 
-To populate the databse, run : mddapi/ressources/mddapi_db_script_populate_mock.sql.
+To populate the databse, run : mddapi/ressources/mddapi_db_script_populate_mock.sql
 
-Don't forget to check the 'application.properties' file to define the correct user.
+Don't forget to check the 'application.properties' file to define the correct user
 
 ## Back
 
 Install dependencies:
-
-> cd mddapi
 
 > mvn install
 
@@ -39,15 +37,3 @@ Launch Back-end:
 
 Given the api is running, can be found here :
  http://localhost:3001/swagger-ui/index.html#/
-
-## Front
-
-Install dependencies:
-
-> cd mddfront
-
-> npm install
-
-Launch Front-end:
-
-> ng serve
