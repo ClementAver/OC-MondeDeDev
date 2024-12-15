@@ -15,6 +15,7 @@ export class ErrorHandler {
       errorMessage = error.message;
     }
 
+    console.error(error);
     if (!skipAlert) alert(errorMessage);
     return throwError(() => new Error(errorMessage));
   }

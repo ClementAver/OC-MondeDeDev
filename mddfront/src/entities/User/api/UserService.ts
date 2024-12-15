@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../shared/config/environment';
 import { ErrorHandler } from '../../../shared/utility/ErrorHandler';
 import { AuthenticationService } from '../../../features/authentication/api/AuthenticationService';
@@ -19,20 +19,10 @@ export class UserService {
     private authenticationService: AuthenticationService
   ) {}
 
-  private getHeaders(): HttpHeaders {
-    const accessToken = this.authenticationService.getAccessToken();
-    if (!accessToken) {
-      throw new Error('Access token is not set');
-    }
-    return new HttpHeaders({
-      Authorization: `Bearer ${accessToken}`,
-    });
-  }
-
   getUser(id: number): Observable<UserResponse> {
     return this.httpClient
       .get<UserResponse>(`${this.apiURL}/user/${id}`, {
-        headers: this.getHeaders(),
+        headers: this.authenticationService.getHeaders(),
       })
       .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
@@ -40,7 +30,7 @@ export class UserService {
   getUserTopics(id: number): Observable<Topic[]> {
     return this.httpClient
       .get<Topic[]>(`${this.apiURL}/user/${id}/topics`, {
-        headers: this.getHeaders(),
+        headers: this.authenticationService.getHeaders(),
       })
       .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
@@ -55,7 +45,7 @@ export class UserService {
       .post<Post[]>(
         `${this.apiURL}/user/${id}/feed`,
         { limit, offset, sort },
-        { headers: this.getHeaders() }
+        { headers: this.authenticationService.getHeaders() }
       )
       .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }
@@ -63,7 +53,7 @@ export class UserService {
   getUserFeedSize(id: number): Observable<number> {
     return this.httpClient
       .post<number>(`${this.apiURL}/user/${id}/feed/size`, {},{
-        headers: this.getHeaders(),
+        headers: this.authenticationService.getHeaders(),
       })
       .pipe(catchError((error) => this.errorHandler.handleError(error)));
   }

@@ -26,6 +26,16 @@ export class AuthenticationService {
     return localStorage.getItem('refreshToken') || '';
   }
 
+  getHeaders(): HttpHeaders {
+    const accessToken = this.getAccessToken();
+    if (!accessToken) {
+      throw new Error('Access token absent.');
+    }
+    return new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+  }
+
   login(requestBody: {
     name: string;
     email: string;
@@ -85,7 +95,7 @@ export class AuthenticationService {
       );
   }
 
-  refresh(): Observable<LoginResponse> {
+  refresh(skipAlert: boolean = false): Observable<LoginResponse> {
     const refreshToken = this.getRefreshToken();
 
     if (!refreshToken) {
@@ -99,7 +109,7 @@ export class AuthenticationService {
           sessionStorage.setItem('token', response.token);
           localStorage.setItem('refreshToken', response.refreshToken);
         }),
-        catchError((error) => this.errorHandler.handleError(error))
+        catchError((error) => this.errorHandler.handleError(error, skipAlert))
       );
   }
 
@@ -124,12 +134,22 @@ export class AuthenticationService {
     return this.me(skipAlert).pipe(
       map(() => true),
       catchError(() => {
+        this.errorHandler.handleError(
+          new Error(
+            "La tentative d'authentification a échoué. Nouvelle tentative…"
+          ),
+          skipAlert
+        );
+
         if (refreshToken) {
-          return this.refresh().pipe(
-            switchMap(() => this.me(skipAlert)),
+          return this.refresh(true).pipe(
+            switchMap(() => {
+              return this.me(true);
+            }),
             map(() => true),
+
             catchError((error) => {
-              this.errorHandler.handleError(error);
+              this.errorHandler.handleError(error, skipAlert);
               return of(false);
             })
           );

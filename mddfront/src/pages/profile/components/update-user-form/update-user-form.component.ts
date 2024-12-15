@@ -83,9 +83,6 @@ export class UpdateUserFormComponent {
       next: () => {
         this.authenticationService.logout();
       },
-      error: (error: any) => {
-        alert(error.message);
-      },
     });
   }
 }
