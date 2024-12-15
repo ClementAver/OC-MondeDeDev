@@ -23,18 +23,6 @@ To populate the databse, run : mddapi/ressources/mddapi_db_script_populate_mock.
 
 Don't forget to check the 'application.properties' file to define the correct user.
 
-## Back
-
-Install dependencies:
-
-> cd mddapi
-
-> mvn install
-
-Launch Back-end:
-
-> mvn exec:java -D exec.mainClass="com.openclassrooms.mddapi.MddapiApplication"
-
 ### Api Documentation
 
 Given the api is running, can be found here :
